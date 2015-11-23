@@ -36,3 +36,19 @@ cm_r2();
 cm_r3():=trigsimp(ratsimp((1/16)*sum(sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,l]*cm_us[l,i],
                                         l,1,dim),k,1,dim),j,1,dim),i,1,dim)))$
 cm_r3();
+
+/* Input p is an array of dim integers; this routine is meant to be used for small arrays, will
+   not have good performance on large arrays.
+   Returns -1, 0, or +1, depending on whether p is an even or odd permutation.
+*/
+cm_parity(p):= block
+(
+  result:1,
+  n:length(p),
+  for i: 1 thru n-1 do
+    for j: i+1 thru n do block (
+      if p[i]>p[j] then result:-result,
+      if is(equal(p[i],p[j])) then result:0
+    ),
+  result
+)$
