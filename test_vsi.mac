@@ -1,4 +1,7 @@
-/* vacuum-dominated FLRW metric */
+/* Hans-Juergen Schmidt,
+   "Why do all the curvature invariants of a gravitational wave vanish?" 
+   http://arxiv.org/abs/gr-qc/9404037 
+*/
 
 load(ctensor);
 dim:3;

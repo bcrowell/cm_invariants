@@ -1,4 +1,4 @@
-/* vacuum-dominated FLRW metric */
+/* Schwarzschild spacetime */
 
 load(ctensor);
 ct_coords:[t,r,theta,phi];
