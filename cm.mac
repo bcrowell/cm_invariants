@@ -1,0 +1,38 @@
+/*-----------------------------------------------------------------
+  Carminati-McLenaghan invariants, 
+    https://en.wikipedia.org/wiki/Carminati%E2%80%93McLenaghan_invariants
+  (c) 2015 B. Crowell, GPL v. 2 licensed
+ ------------------------------------------------------------------*/
+
+/* Make sure the following have been calculated: */
+cmetric(false)$
+lriemann(false)$
+uriemann(false)$
+ricci(false)$ /* compute the ricci tensor ric[i,j]=R_ij */
+uricci(false)$ /* compute the mixed ricci tensor uric[i,j]=R_i^j */
+
+/* R=R_i^i, the Ricci scalar, scalar curvature */
+cm_r():=trigsimp(ratsimp(sum(uric[i,i],i,1,dim)))$
+cm_r();
+
+/* trace-free Ricci tensor, cm_s[i,j]=S_ij=R_ij-(1/4)Rg_ij */
+for i thru dim do
+  for j thru dim do
+    cm_s[i,j] : ric[i,j]-(1/4)*cm_r()*lg[i,j]$
+/* mixed version, cm_us[i,j]=S^i_j */
+for i thru dim do
+  for j thru dim do
+    cm_us[i,j] : sum(ug[i,k]*cm_s[k,j],k,1,dim)$
+
+/* R_1=(1/4)S^i_j S^j_i */
+cm_r1():=trigsimp(ratsimp((1/4)*sum(sum(cm_us[i,j]*cm_us[j,i],j,1,dim),i,1,dim)))$
+cm_r1();
+
+/* R_2=(-1/8)S^i_j S^j_k S^k_i */
+cm_r2():=trigsimp(ratsimp((-1/9)*sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,i],k,1,dim),j,1,dim),i,1,dim)))$
+cm_r2();
+
+/* R_3=(1/16)S^i_j S^j_k S^k_l S^l_i */
+cm_r3():=trigsimp(ratsimp((1/16)*sum(sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,l]*cm_us[l,i],
+                                        l,1,dim),k,1,dim),j,1,dim),i,1,dim)))$
+cm_r3();

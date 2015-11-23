@@ -1,0 +1,13 @@
+/* vacuum-dominated FLRW metric */
+
+load(ctensor);
+dim:3;
+ct_coords:[u,v,w];
+depends(a,u);
+a:1+(1/2)*cos(u);
+lg:matrix([0,1/2,0],
+          [1/2,0,0],
+          [0,0,-a^2]
+          );
+batch("cm.mac");
+ricci(true);
