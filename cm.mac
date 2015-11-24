@@ -10,6 +10,7 @@ lriemann(false)$
 uriemann(false)$
 ricci(false)$ /* compute the ricci tensor ric[i,j]=R_ij */
 uricci(false)$ /* compute the mixed ricci tensor uric[i,j]=R_i^j */
+weyl(false)$ /* compute Weyl tensor */
 
 /* R=R_i^i, the Ricci scalar, scalar curvature */
 cm_r():=trigsimp(ratsimp(sum(uric[i,i],i,1,dim)))$
@@ -127,6 +128,13 @@ for i thru dim do
             ug[i,m]*ug[j,n]*cm_c_star_mixed[m,n,k,l],
           m,1,dim),n,1,dim)));
 
+
+cm_w1_real():=trigsimp(ratsimp(
+  (1/8)*sum(sum(sum(sum(
+    weyl[a,b,c,d]*cm_weyl_upper[a,b,c,d],
+  a,1,dim),b,1,dim),c,1,dim),d,1,dim)
+))$
+cm_w1_real();
 
 cm_m3():=trigsimp(ratsimp(
   (1/16)*sum(sum(sum(sum(sum(sum(
