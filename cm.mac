@@ -76,21 +76,26 @@ for i thru dim do
 
 /*
   Weyl tensor, C_ijkl
-  Reordering of indices is based on my guess that weyl[] has them in the same goofy order as riem[]; this
-      seems to check out when I check antisymmatry.
-  I'm also guessing that the last index on weyl[] is upper, the rest lower, as with riem[]; when I assumed
-      they were all lower, I got things that didn't make sense in terms of units.
-  Because of the way the Weyl tensor is defined, its components should have the same units as the corresponding
-      components of the Riemann tensor, when they're expressed with the same raised and lowered indices.
-  riem[i,j,k,l]=R^l_ijk according to http://maxima.sourceforge.net/docs/manual/maxima_26.html
-  So I think weyl[i,j,k,l]=C^l_ijk.
-*/
+
+  Problems with lack of documentation on how indices of weyl[] are defined.
+     http://sourceforge.net/p/maxima/mailman/message/34644270/
+  Did some reverse-engineering using Schwarzschild metric.
+  The indices on weyl[] are definitely scrambled compared to the literature, because,e.g, [1122] doesn't vanish.
+  If I define cm_c[l,i,j,k]:weyl[i,j,k,l], the symmetry makes sense (antisymm on indices 1,2 and 3,4).
+       This is consistent with the order of indices on the various flavors of the Riemann tensor that ctensor builds:
+       riem[i,j,k,l]=R^l_ijk according to http://maxima.sourceforge.net/docs/manual/maxima_26.html
+    Yes, comment in ctensor.mac, line 1217, says "The computation of the Weyl tensor follows the same index ordering."
+  At line 1387 in the source, we have:
+       weyl[l,j,i,k]:ctaylor(lriem[l,j,i,k]+
+  So it's all lower indices.
+  I have three types of checks I can do: (1) symmetry, (2) units, (3) trace-free.
+ */
 array(cm_c,dim,dim,dim,dim);
 for i thru dim do
   for j thru dim do
     for k thru dim do
       for l thru dim do
-        cm_c[l,i,j,k]:sum(lg[l,m]*weyl[i,j,k,m],m,1,dim) /* C_lijk=g_lm C^m_ijk */
+        cm_c[l,i,j,k]:weyl[i,j,k,l]
 $
 
 /* mixed form of Weyl tensor, C_ij^kl
