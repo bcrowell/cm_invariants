@@ -73,28 +73,41 @@ for i thru dim do
       for l thru dim do
         cm_eps[i,j,k,l] : trigsimp(ratsimp(cm_root_gdet*cm_parity([i,j,k,l])));
 
-/* mixed form of Weyl tensor, C_ij^kl
-  ctensor docs don't actually say whether weyl[] is all lower-index...?
+
+/*
+  Weyl tensor, C_ijkl
+  Reordering of indices is based on my guess that weyl[] has them in the same goofy order as lriem[].
+  Also just guessing that indices are all lower.
 */
-array(cm_weyl_mixed,dim,dim,dim,dim);
+array(cm_c,dim,dim,dim,dim);
 for i thru dim do
   for j thru dim do
     for k thru dim do
       for l thru dim do
-        cm_weyl_mixed[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[k,m]*ug[l,n]*weyl[i,j,m,n],
+        cm_c[l,i,k,j]:weyl[i,j,k,l]
+$
+
+/* mixed form of Weyl tensor, C_ij^kl
+*/
+array(cm_c_mixed,dim,dim,dim,dim);
+for i thru dim do
+  for j thru dim do
+    for k thru dim do
+      for l thru dim do
+        cm_c_mixed[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+            ug[k,m]*ug[l,n]*cm_c[i,j,m,n],
           m,1,dim),n,1,dim)))
 $
 
 /* upper-index form of Weyl tensor, C^ijkl
 */
-array(cm_weyl_upper,dim,dim,dim,dim);
+array(cm_c_upper,dim,dim,dim,dim);
 for i thru dim do
   for j thru dim do
     for k thru dim do
       for l thru dim do
-        cm_weyl_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[i,m]*ug[j,n]*cm_weyl_mixed[m,n,k,l],
+        cm_c_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+            ug[i,m]*ug[j,n]*cm_c_mixed[m,n,k,l],
           m,1,dim),n,1,dim)));
 
 
@@ -105,7 +118,7 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_star[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            (1/2)*cm_eta[k,l,m,n]*cm_weyl_mixed[i,j,m,n],
+            (1/2)*cm_eta[k,l,m,n]*cm_c_mixed[i,j,m,n],
           m,1,dim),n,1,dim)));
 
 /* mixed form, *C_ij^kl */
@@ -131,14 +144,14 @@ for i thru dim do
 
 cm_w1_real():=trigsimp(ratsimp(
   (1/8)*sum(sum(sum(sum(
-    weyl[a,b,c,d]*cm_weyl_upper[a,b,c,d],
+    cm_c[a,b,c,d]*cm_c_upper[a,b,c,d],
   a,1,dim),b,1,dim),c,1,dim),d,1,dim)
 ))$
 cm_w1_real();
 
 cm_m3():=trigsimp(ratsimp(
   (1/16)*sum(sum(sum(sum(sum(sum(
-    cm_uus[b,c]*cm_s[e,f]*(weyl[a,b,c,d]*cm_weyl_upper[a,e,f,d]+cm_c_star[a,b,c,d]*cm_c_star_upper[a,e,f,d]),
+    cm_uus[b,c]*cm_s[e,f]*(cm_c[a,b,c,d]*cm_c_upper[a,e,f,d]+cm_c_star[a,b,c,d]*cm_c_star_upper[a,e,f,d]),
   a,1,dim),b,1,dim),c,1,dim),d,1,dim),e,1,dim),f,1,dim)
 ))$
 cm_m3();
