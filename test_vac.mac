@@ -1,6 +1,7 @@
 /* vacuum-dominated FLRW metric */
 
 load(ctensor);
+
 ct_coords:[t,r,theta,phi];
 a : sinh(t); /* t=c*T, where c=sqrt(Lambda/3) and T is the usual FLRW time coordinate*/
 k : -1;

@@ -1,0 +1,10 @@
+/* Minkowski space */
+
+load(ctensor);
+
+ct_coords:[t,x,y,z];
+lg:matrix([1,0,0,0],
+          [0,-1,0,0],
+          [0,0,-1,0],
+          [0,0,0,-1]);
+batch("cm.mac");

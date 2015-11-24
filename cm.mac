@@ -24,6 +24,10 @@ for i thru dim do
 for i thru dim do
   for j thru dim do
     cm_us[i,j] : sum(ug[i,k]*cm_s[k,j],k,1,dim)$
+/* fully contravariant version, cm_uus[i,j]=S^ij */
+for i thru dim do
+  for j thru dim do
+    cm_uus[i,j] : sum(ug[j,k]*cm_us[i,k],k,1,dim)$
 
 /* R_1=(1/4)S^i_j S^j_i */
 cm_r1():=trigsimp(ratsimp((1/4)*sum(sum(cm_us[i,j]*cm_us[j,i],j,1,dim),i,1,dim)))$
@@ -61,9 +65,72 @@ cm_parity(p):= block
   This is not tested yet.
 */
 array(cm_eps,dim,dim,dim,dim);
-root_gdet:sqrt(-gdet); /* gdet is determinant of metric, computed by cmetric */
+cm_root_gdet:sqrt(-gdet); /* gdet is determinant of metric, computed by cmetric */
 for i thru dim do
   for j thru dim do
     for k thru dim do
       for l thru dim do
-        cm_eps[i,j,k,l] : root_gdet*cm_parity([i,j,k,l])$
+        cm_eps[i,j,k,l] : trigsimp(ratsimp(cm_root_gdet*cm_parity([i,j,k,l])));
+
+/* mixed form of Weyl tensor, C_ij^kl
+  ctensor docs don't actually say whether weyl[] is all lower-index...?
+*/
+array(cm_weyl_mixed,dim,dim,dim,dim);
+for i thru dim do
+  for j thru dim do
+    for k thru dim do
+      for l thru dim do
+        cm_weyl_mixed[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+            ug[k,m]*ug[l,n]*weyl[i,j,m,n],
+          m,1,dim),n,1,dim)))
+$
+
+/* upper-index form of Weyl tensor, C^ijkl
+*/
+array(cm_weyl_upper,dim,dim,dim,dim);
+for i thru dim do
+  for j thru dim do
+    for k thru dim do
+      for l thru dim do
+        cm_weyl_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+            ug[i,m]*ug[j,n]*cm_weyl_mixed[m,n,k,l],
+          m,1,dim),n,1,dim)));
+
+
+/* left Hodge dual of Weyl tensor, *C_ijkl */
+array(cm_c_star,dim,dim,dim,dim);
+for i thru dim do
+  for j thru dim do
+    for k thru dim do
+      for l thru dim do
+        cm_c_star[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+            (1/2)*cm_eta[k,l,m,n]*cm_weyl_mixed[i,j,m,n],
+          m,1,dim),n,1,dim)));
+
+/* mixed form, *C_ij^kl */
+array(cm_c_star_mixed,dim,dim,dim,dim);
+for i thru dim do
+  for j thru dim do
+    for k thru dim do
+      for l thru dim do
+        cm_c_star_mixed[i,j,k,l] : sum(sum(
+            ug[k,m]*ug[l,n]*cm_c_star[i,j,m,n],
+          m,1,dim),n,1,dim);
+
+/* mixed form, *C^ijkl */
+array(cm_c_star_upper,dim,dim,dim,dim);
+for i thru dim do
+  for j thru dim do
+    for k thru dim do
+      for l thru dim do
+        cm_c_star_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+            ug[i,m]*ug[j,n]*cm_c_star_mixed[m,n,k,l],
+          m,1,dim),n,1,dim)));
+
+
+cm_m3():=trigsimp(ratsimp(
+  (1/16)*sum(sum(sum(sum(sum(sum(
+    cm_uus[b,c]*cm_s[e,f]*(weyl[a,b,c,d]*cm_weyl_upper[a,e,f,d]+cm_c_star[a,b,c,d]*cm_c_star_upper[a,e,f,d]),
+  a,1,dim),b,1,dim),c,1,dim),d,1,dim),e,1,dim),f,1,dim)
+))$
+cm_m3();
