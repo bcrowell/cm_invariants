@@ -7,11 +7,3 @@ lg:matrix([(1-2*m/r),0,0,0],
           [0,0,-r^2,0],
           [0,0,0,-r^2*sin(theta)^2]);
 batch("cm.mac");
-
-/*
-units OK:
-  cm_s cm_us cm_uus
-units wrong
-  cm_c_mixed
-*/
-/* cdisplay(cm_c_mixed); */

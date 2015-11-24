@@ -1,0 +1,33 @@
+load(ctensor);
+/* Schwarzschild spacetime */
+ct_coords:[t,r,theta,phi];
+lg:matrix([(1-2*m/r),0,0,0],
+          [0,-1/(1-2*m/r),0,0],
+          [0,0,-r^2,0],
+          [0,0,0,-r^2*sin(theta)^2]);
+load("cm.mac");
+
+/* function to check for antisymmetry on indices 1,2 and 3,4 */
+check_symmetry(t,name):=block (
+  print("checking symmetry of ",name),
+  for i thru dim do
+    for j thru dim do
+      for k thru dim do
+        for l thru dim do block (
+          u:t[i,j,k,l],
+          v:t[i,j,l,k],
+          if u#(-v) then error("wrong symmetry on indices 3,4 at ",i,j,k,l," u,v=",u,",",v),
+          v:t[j,i,k,l],
+          if u#(-v) then error("wrong symmetry on indices 1,2 at ",i,j,k,l," u,v=",u,",",v)
+      )
+)
+$
+
+cdisplay(weyl);
+cdisplay(cm_c);
+
+check_symmetry(cm_c,"C_ijkl");
+check_symmetry(cm_c_mixed,"C_ij^kl");
+check_symmetry(cm_c_star,"*C_ijkl");
+check_symmetry(cm_c_star_upper,"*C^ijkl");
+check_symmetry(cm_c_star_mixed,"*C_ij^kl");
