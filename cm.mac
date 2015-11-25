@@ -163,10 +163,10 @@ cm_m4():=trigsimp(ratsimp(
   %a,1,dim),%b,1,dim),%c,1,dim),%d,1,dim),%ee,1,dim),%f,1,dim),%g,1,dim)
 ))$
 
-cm_w1_real():=trigsimp(ratsimp(
+cm_w1():=trigsimp(ratsimp(
   (1/8)*sum(sum(sum(sum(
-    cm_c[a,b,c,d]*cm_c_upper[a,b,c,d],
-  a,1,dim),b,1,dim),c,1,dim),d,1,dim)
+    (cm_c[%a,%b,%c,%d]+%i*cm_c_star[%a,%b,%c,%d])*cm_c_upper[%a,%b,%c,%d],
+  %a,1,dim),%b,1,dim),%c,1,dim),%d,1,dim)
 ))$
 
 
@@ -177,5 +177,5 @@ cm_print_invariants():=block (
   print("R3=",cm_r3()),
   print("M3=",cm_m3()),
   print("M4=",cm_m4()),
-  print("Re(W1)=",cm_w1_real())
+  print("W1=",cm_w1())
 )$
