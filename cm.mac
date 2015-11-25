@@ -14,7 +14,6 @@ weyl(false)$ /* compute Weyl tensor */
 
 /* R=R_i^i, the Ricci scalar, scalar curvature */
 cm_r():=trigsimp(ratsimp(sum(uric[i,i],i,1,dim)))$
-cm_r();
 
 /* trace-free Ricci tensor, cm_s[i,j]=S_ij=R_ij-(1/4)Rg_ij */
 array(cm_s,dim,dim);
@@ -32,16 +31,13 @@ for i thru dim do
 
 /* R_1=(1/4)S^i_j S^j_i */
 cm_r1():=trigsimp(ratsimp((1/4)*sum(sum(cm_us[i,j]*cm_us[j,i],j,1,dim),i,1,dim)))$
-cm_r1();
 
 /* R_2=(-1/8)S^i_j S^j_k S^k_i */
 cm_r2():=trigsimp(ratsimp((-1/9)*sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,i],k,1,dim),j,1,dim),i,1,dim)))$
-cm_r2();
 
 /* R_3=(1/16)S^i_j S^j_k S^k_l S^l_i */
 cm_r3():=trigsimp(ratsimp((1/16)*sum(sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,l]*cm_us[l,i],
                                         l,1,dim),k,1,dim),j,1,dim),i,1,dim)))$
-cm_r3();
 
 /* Input p is an array of dim integers; this routine is meant to be used for small arrays, will
    not have good performance on large arrays.
@@ -106,8 +102,8 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_mixed[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[k,mm]*ug[l,nn]*cm_c[i,j,mm,nn],
-          mm,1,dim),nn,1,dim)))
+            ug[k,%m]*ug[l,%n]*cm_c[i,j,%m,%n],
+          %m,1,dim),%n,1,dim)))
 $
 
 /* upper-index form of Weyl tensor, C^ijkl
@@ -118,8 +114,8 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[i,mm]*ug[j,nn]*cm_c_mixed[mm,nn,k,l],
-          mm,1,dim),nn,1,dim)));
+            ug[i,%m]*ug[j,%n]*cm_c_mixed[%m,%n,k,l],
+          %m,1,dim),%n,1,dim)));
 
 
 /* left Hodge dual of Weyl tensor, *C_ijkl */
@@ -129,8 +125,8 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_star[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            (1/2)*cm_eps[k,l,mm,nn]*cm_c_mixed[i,j,mm,nn],
-          mm,1,dim),nn,1,dim)));
+            (1/2)*cm_eps[k,l,%m,%n]*cm_c_mixed[i,j,%m,%n],
+          %m,1,dim),%n,1,dim)));
 
 /* mixed form, *C_ij^kl */
 array(cm_c_star_mixed,dim,dim,dim,dim);
@@ -139,8 +135,8 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_star_mixed[i,j,k,l] : sum(sum(
-            ug[k,mm]*ug[l,nn]*cm_c_star[i,j,mm,nn],
-          mm,1,dim),nn,1,dim);
+            ug[k,%m]*ug[l,%n]*cm_c_star[i,j,%m,%n],
+          %m,1,dim),%n,1,dim);
 
 /* mixed form, *C^ijkl */
 array(cm_c_star_upper,dim,dim,dim,dim);
@@ -149,8 +145,8 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_star_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[i,mm]*ug[j,nn]*cm_c_star_mixed[mm,nn,k,l],
-          mm,1,dim),nn,1,dim)));
+            ug[i,%m]*ug[j,%n]*cm_c_star_mixed[%m,%n,k,l],
+          %m,1,dim),%n,1,dim)));
 
 
 cm_w1_real():=trigsimp(ratsimp(
@@ -158,11 +154,9 @@ cm_w1_real():=trigsimp(ratsimp(
     cm_c[a,b,c,d]*cm_c_upper[a,b,c,d],
   a,1,dim),b,1,dim),c,1,dim),d,1,dim)
 ))$
-cm_w1_real();
 
 cm_m3():=trigsimp(ratsimp(
   (1/16)*sum(sum(sum(sum(sum(sum(
     cm_uus[b,c]*cm_s[e,f]*(cm_c[a,b,c,d]*cm_c_upper[a,e,f,d]+cm_c_star[a,b,c,d]*cm_c_star_upper[a,e,f,d]),
   a,1,dim),b,1,dim),c,1,dim),d,1,dim),e,1,dim),f,1,dim)
 ))$
-cm_m3();

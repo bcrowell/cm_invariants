@@ -5,5 +5,12 @@ ct_coords:[t,r,theta,phi];
 lg:matrix([(1-2*m/r),0,0,0],
           [0,-1/(1-2*m/r),0,0],
           [0,0,-r^2,0],
-          [0,0,0,-r^2*sin(theta)^2]);
-batch("cm.mac");
+          [0,0,0,-r^2*sin(theta)^2])$
+load("cm.mac");
+
+print("R=",cm_r())$
+print("R1=",cm_r1())$
+print("R2=",cm_r2())$
+print("R3=",cm_r3())$
+print("Re(W1)=",cm_w1_real())$
+print("M3=",cm_m3())$
