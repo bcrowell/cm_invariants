@@ -181,9 +181,21 @@ cm_m1():=trigsimp(ratsimp(
   %a,1,dim),%b,1,dim),%c,1,dim),%d,1,dim)
 ))$
 
+cm_m2():=trigsimp(ratsimp(
+  (1/16)*sum(sum(sum(sum(sum(sum(
+    cm_uus[%b,%c]*cm_s[%ee,%f]*(
+      (cm_c[%a,%b,%c,%d]*cm_c_upper[%a,%ee,%f,%d]-cm_c_star[%a,%c,%d,%b]*cm_c_star_upper[%a,%ee,%f,%d])
+    )
+  +(1/8)*%i*cm_uus[%b,%c]*cm_s[%ee,%f]*cm_c_star[%a,%b,%c,%d]*cm_c_star_upper[%a,%ee,%f,%d]
+  ,
+  %a,1,dim),%b,1,dim),%c,1,dim),%d,1,dim),%ee,1,dim),%f,1,dim)
+))$
+
+
 
 
 cm_print_invariants():=block (
+  exptdispflag:false,
   print("R=",cm_r()),
   print("R1=",cm_r1()),
   print("R2=",cm_r2()),
@@ -192,5 +204,6 @@ cm_print_invariants():=block (
   print("M4=",cm_m4()),
   print("W1=",cm_w1()),
   print("W2=",cm_w1()),
-  print("M1=",cm_w1())
+  print("M1=",cm_w1()),
+  print("M2=",cm_w1())
 )$
