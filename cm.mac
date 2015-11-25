@@ -106,8 +106,8 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_mixed[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[k,m]*ug[l,n]*cm_c[i,j,m,n],
-          m,1,dim),n,1,dim)))
+            ug[k,mm]*ug[l,nn]*cm_c[i,j,mm,nn],
+          mm,1,dim),nn,1,dim)))
 $
 
 /* upper-index form of Weyl tensor, C^ijkl
@@ -118,8 +118,8 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[i,m]*ug[j,n]*cm_c_mixed[m,n,k,l],
-          m,1,dim),n,1,dim)));
+            ug[i,mm]*ug[j,nn]*cm_c_mixed[mm,nn,k,l],
+          mm,1,dim),nn,1,dim)));
 
 
 /* left Hodge dual of Weyl tensor, *C_ijkl */
@@ -129,8 +129,8 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_star[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            (1/2)*cm_eta[k,l,m,n]*cm_c_mixed[i,j,m,n],
-          m,1,dim),n,1,dim)));
+            (1/2)*cm_eps[k,l,mm,nn]*cm_c_mixed[i,j,mm,nn],
+          mm,1,dim),nn,1,dim)));
 
 /* mixed form, *C_ij^kl */
 array(cm_c_star_mixed,dim,dim,dim,dim);
@@ -139,8 +139,8 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_star_mixed[i,j,k,l] : sum(sum(
-            ug[k,m]*ug[l,n]*cm_c_star[i,j,m,n],
-          m,1,dim),n,1,dim);
+            ug[k,mm]*ug[l,nn]*cm_c_star[i,j,mm,nn],
+          mm,1,dim),nn,1,dim);
 
 /* mixed form, *C^ijkl */
 array(cm_c_star_upper,dim,dim,dim,dim);
@@ -149,8 +149,8 @@ for i thru dim do
     for k thru dim do
       for l thru dim do
         cm_c_star_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[i,m]*ug[j,n]*cm_c_star_mixed[m,n,k,l],
-          m,1,dim),n,1,dim)));
+            ug[i,mm]*ug[j,nn]*cm_c_star_mixed[mm,nn,k,l],
+          mm,1,dim),nn,1,dim)));
 
 
 cm_w1_real():=trigsimp(ratsimp(
