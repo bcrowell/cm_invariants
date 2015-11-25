@@ -12,5 +12,6 @@ lg:matrix([0,1/2,0],
           [1/2,0,0],
           [0,0,-a^2]
           );
-batch("cm.mac");
-ricci(true);
+load("cm.mac");
+
+cm_print_invariants();

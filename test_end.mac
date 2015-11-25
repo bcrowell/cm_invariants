@@ -1,7 +1,11 @@
 load(ctensor);
-dim:2;
-ct_coords:[t,x];
+ct_coords:[t,x,y,z];
 u:1/(1+exp(t));
-lg:matrix([u,0],
-  [0,-u]);
-batch("cm.mac");
+lg:matrix([u,0,0,0],
+  [0,-u,0,0],
+  [0,0,-1,0],
+  [0,0,0,-1]
+);
+load("cm.mac");
+
+cm_print_invariants();

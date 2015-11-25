@@ -9,7 +9,6 @@ lg:matrix([1,0,0,0],
           [0,-a^2*1/(1-k*r^2),0,0],
           [0,0,-a^2*r^2,0],
           [0,0,0,-a^2*r^2*sin(theta)^2]);
-batch("cm.mac");
-is(equal(cm_r(),-12));
-/* trigreduce(trigsimp(radcan(ratsimp(trigexpand(radexpand(cm_r())))))); */
-/* trigsimp(cm_r()); */
+load("cm.mac");
+
+cm_print_invariants();

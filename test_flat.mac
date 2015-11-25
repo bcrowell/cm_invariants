@@ -7,4 +7,6 @@ lg:matrix([1,0,0,0],
           [0,-1,0,0],
           [0,0,-1,0],
           [0,0,0,-1]);
-batch("cm.mac");
+load("cm.mac");
+
+cm_print_invariants();

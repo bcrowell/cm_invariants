@@ -203,15 +203,18 @@ cm_m5():=trigsimp(ratsimp(
 
 cm_print_invariants():=block (
   exptdispflag:false,
-  print("R=",cm_r()),
-  print("R1=",cm_r1()),
-  print("R2=",cm_r2()),
-  print("R3=",cm_r3()),
-  print("M3=",cm_m3()),
-  print("M4=",cm_m4()),
-  print("W1=",cm_w1()),
-  print("W2=",cm_w2()),
-  print("M1=",cm_m1()),
-  print("M2=",cm_m2()),
-  print("M5=",cm_m5())
+  print("R=",cm_r(),
+      "  R1=",cm_r1(),
+      "  R2=",cm_r2(),
+      "  R3=",cm_r3(),
+      "  M3=",cm_m3(),
+      "  M4=",cm_m4()
+  ),
+  print(
+      "  W1=",cm_w1(),
+      "  W2=",cm_w2(),
+      "  M1=",cm_m1(),
+      "  M2=",cm_m2(),
+      "  M5=",cm_m5()
+  )
 )$
