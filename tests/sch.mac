@@ -11,4 +11,5 @@ load("cm_invariants.mac");
 cm_do_tests();
 
 cm_print_invariants();
-print("limit of W1 as r->0 = ",limit(cm_w1(),r,0));
+cm_assert("Schwarzschild metric has W1 approaching infinity as r->0",is(equal(limit(cm_w1(),r,0),infinity)));
+cm_assert("Schwarzschild metric has W1=6m^2r^-6",is(equal(trigsimp(ratsimp(cm_w1()-6*m^2*r^-6)),0)));
