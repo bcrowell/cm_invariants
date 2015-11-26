@@ -15,6 +15,8 @@ lg:matrix([1,0,0,0],
           [0,0,0,-a^2*r^2*sin(theta)^2]);
 load("cm_invariants.mac");
 
+cm_do_tests();
+
 cm_print_invariants();
 print("limit of R1 as t->0 = ",limit(cm_r1(),t,0));
 print("limit of R1 as t->2 = ",limit(cm_r1(),t,2));

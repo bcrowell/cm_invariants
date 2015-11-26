@@ -225,11 +225,73 @@ cm_print_invariants():=block (
   %inv:cm_nonvanishing_invariants(),
   for %m:1 thru length(%inv) do block (
     %k:%inv[%m],
-    print(cm_invariant_name[%k],"=",cm_invariant[%k])
+    print("  ",cm_invariant_name[%k],"=",cm_invariant[%k])
   )
 )$
 
-
 cm_assert_vanishing_invariants():=block (
-  
+  %inv:cm_nonvanishing_invariants(),
+  if length(%inv)=0 then block (
+    print("All CM invariants vanish, as asserted.")
+  ),
+  if length(%inv)#0 then block (
+    print("error: cm_assert_vanishing_invariants() was called, but there are nonvanishing invariants:"),
+    cm_print_invariants(),
+    error("assertion failed in cm_assert_vanishing_invariants")
+  )
+)$
+
+cm_assert(explanation,condition):=block (
+  if condition=false then block (
+    print("error: cm_assert says the test '",explanation,"' yielded ",condition),
+    error("assertion failed in cm_assert")
+  ),
+  if condition=unknown then block (
+    print("warning: cm_assert says the test '",explanation,"' yielded ",condition)
+  )
+)$
+
+/* function to check for antisymmetry of a tensor on indices 1,2 and 3,4 */
+cm_check_symmetry(t,explanation):=block (
+  for i thru dim do
+    for j thru dim do
+      for k thru dim do
+        for l thru dim do block (
+          u:t[i,j,k,l],
+          v:t[j,i,k,l],
+          cm_assert(sconcat(explanation,", wrong symmetry on indices 1,2 at ",i,j,k,l," u,v=",u,",",v),
+                    is(equal(u,-v))),
+          v:t[i,j,l,k],
+          cm_assert(sconcat(explanation,", wrong symmetry on indices 3,4 at ",i,j,k,l," u,v=",u,",",v),
+                    is(equal(u,-v)))
+      )
+)
+$
+
+/* function to check for tracelessness of a tensor on indices 1,3 and 2,3; it's assumed that one
+   of these is upper and one lower */
+cm_check_traceless(t,explanation):=block (
+  for i thru dim do
+    for j thru dim do
+      for k thru dim do block (
+        tr13:sum(t[l,i,l,j],l,1,dim),
+        cm_assert(sconcat(explanation,", not traceless on [l,",i,",l,",j,"] trace=",tr13),
+                    is(equal(tr13,0))),
+        tr23:sum(t[i,l,l,j],l,1,dim),
+        cm_assert(sconcat(explanation,", not traceless on [",i,",l,l,",j,"] trace=",tr23),
+                    is(equal(tr23,0)))
+      )
+)
+$
+
+
+cm_do_tests():=block (
+  cm_assert("S^k_k=0",is(equal(trigsimp(ratsimp(sum(cm_us[%k,%k],%k,1,dim))),0))),
+  cm_check_symmetry(cm_c,"C_ijkl is symmetric in i,j and k,l"),
+  cm_check_symmetry(cm_c_mixed,"C_ij^kl is symmetric in i,j and k,l"),
+  cm_check_symmetry(cm_c_star,"*C_ijkl is symmetric in i,j and k,l"),
+  cm_check_symmetry(cm_c_star_upper,"*C^ijkl is symmetric in i,j and k,l"),
+  cm_check_symmetry(cm_c_star_mixed,"*C_ij^kl is symmetric in i,j and k,l"),
+  cm_check_traceless(cm_c_mixed,"C_ij^kl"),
+  cm_check_traceless(cm_c_star_mixed,"*C_ij^kl")
 )$

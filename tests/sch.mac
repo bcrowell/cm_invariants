@@ -8,5 +8,7 @@ lg:matrix([(1-2*m/r),0,0,0],
           [0,0,0,-r^2*sin(theta)^2])$
 load("cm_invariants.mac");
 
+cm_do_tests();
+
 cm_print_invariants();
 print("limit of W1 as r->0 = ",limit(cm_w1(),r,0));

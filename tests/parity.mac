@@ -5,8 +5,9 @@ lg:matrix([1,0,0,0],
           [0,0,-1,0],
           [0,0,0,-1]);
 load("cm_invariants.mac");
-print(cm_parity([1,2,3,4])," ... should be +1");
-print(cm_parity([1,1,3,4])," ... should be 0");
-print(cm_parity([2,1,3,4])," ... should be -1");
-print(cm_parity([2,1,4,3])," ... should be +1");
-print(cm_parity([2,4,1,3])," ... should be -1");
+
+cm_assert("parity([1,2,3,4])=+1",is(equal(cm_parity([1,2,3,4]),1)));
+cm_assert("parity([1,1,3,4])=0",is(equal(cm_parity([1,1,3,4]),0)));
+cm_assert("parity([2,1,3,4])=-1",is(equal(cm_parity([2,1,3,4]),-1)));
+cm_assert("parity([2,1,4,3])=1",is(equal(cm_parity([2,1,4,3]),1)));
+cm_assert("parity([2,4,1,3])=-1",is(equal(cm_parity([2,4,1,3]),-1)));

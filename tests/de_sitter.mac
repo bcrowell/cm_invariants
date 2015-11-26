@@ -12,3 +12,5 @@ lg:matrix([1,0,0,0],
 load("cm_invariants.mac");
 
 cm_print_invariants();
+
+cm_do_tests();

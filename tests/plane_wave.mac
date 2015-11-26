@@ -11,4 +11,6 @@ lg:matrix([1-h,0,0,h],
           );
 load("cm_invariants.mac");
 
-cm_print_invariants();
+cm_do_tests();
+
+cm_assert_vanishing_invariants();
