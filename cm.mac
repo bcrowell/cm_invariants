@@ -4,6 +4,8 @@
   (c) 2015 B. Crowell, GPL v. 2 licensed
  ------------------------------------------------------------------*/
 
+if dim#4 then error("Error: dim=",dim,", Carminati-McLenaghan invariants are only defined in 4 dimensions");
+
 /* Make sure the following have been calculated: */
 cmetric(false)$
 lriemann(false)$

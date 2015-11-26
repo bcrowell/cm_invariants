@@ -3,6 +3,7 @@ test_symmetry:
 
 test_all:
 	maxima --very-quiet -r "load(\"test_flat.mac\");"
+	maxima --very-quiet -r "load(\"test_plane_wave.mac\");"
 	maxima --very-quiet -r "load(\"test_vsi.mac\");"
 	maxima --very-quiet -r "load(\"test_sch.mac\");"
 	maxima --very-quiet -r "load(\"test_end.mac\");"

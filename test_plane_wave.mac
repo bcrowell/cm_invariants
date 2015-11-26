@@ -1,0 +1,14 @@
+/* Crowell, General Relativity, sec. 9.2.4, example 3 */
+
+load(ctensor);
+ct_coords:[t,x,y,z];
+depends(h,[t,z]);
+h:1+(1/2)*cos(t-z);
+lg:matrix([1-h,0,0,h],
+          [0,-1,0,0],
+          [0,0,-1,0],
+          [h,0,0,-(1+h)]
+          );
+load("cm.mac");
+
+cm_print_invariants();
