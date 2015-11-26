@@ -5,7 +5,7 @@ lg:matrix([(1-2*m/r),0,0,0],
           [0,-1/(1-2*m/r),0,0],
           [0,0,-r^2,0],
           [0,0,0,-r^2*sin(theta)^2]);
-load("cm.mac");
+load("cm_invariants.mac");
 
 /* function to check for antisymmetry of a tensor on indices 1,2 and 3,4 */
 check_symmetry(t,name):=block (

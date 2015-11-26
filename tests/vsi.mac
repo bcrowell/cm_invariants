@@ -12,6 +12,6 @@ lg:matrix([0,1/2,0,0],
           [0,0,-a^2,0],
           [0,0,0,-1]
           );
-load("cm.mac");
+load("cm_invariants.mac");
 
 cm_print_invariants();

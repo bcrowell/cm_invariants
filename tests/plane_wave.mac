@@ -9,6 +9,6 @@ lg:matrix([1-h,0,0,h],
           [0,0,-1,0],
           [h,0,0,-(1+h)]
           );
-load("cm.mac");
+load("cm_invariants.mac");
 
 cm_print_invariants();
