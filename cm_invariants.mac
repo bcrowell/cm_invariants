@@ -1,4 +1,4 @@
-/*-----------------------------------------------------------------
+ /*-----------------------------------------------------------------
   Carminati-McLenaghan invariants, 
     https://en.wikipedia.org/wiki/Carminati%E2%80%93McLenaghan_invariants
   (c) 2015 B. Crowell
@@ -206,21 +206,30 @@ cm_m5():=trigsimp(ratsimp(
 ))$
 
 
+cm_invariant:[cm_r(),cm_r1(),cm_r2(),cm_r3(),cm_m3(),cm_m4(),cm_w1(),cm_w2(),cm_m1(),cm_m2(),cm_m5()]$
+cm_invariant_name:
+              ["R","R1","R2","R3","M3","M4","W1","W2","M1","M2","M5"]$
+
+cm_nonvanishing_invariants():= block (
+  result:[],
+  %inv:cm_invariant,
+  for %k:1 thru length(%inv) do block (
+    if %inv[%k]#0 then result:endcons(%k,result)
+  ),
+  result
+)$
 
 cm_print_invariants():=block (
   exptdispflag:false,
-  print("R=",cm_r(),
-      "  R1=",cm_r1(),
-      "  R2=",cm_r2(),
-      "  R3=",cm_r3(),
-      "  M3=",cm_m3(),
-      "  M4=",cm_m4()
-  ),
-  print(
-      "  W1=",cm_w1(),
-      "  W2=",cm_w2(),
-      "  M1=",cm_m1(),
-      "  M2=",cm_m2(),
-      "  M5=",cm_m5()
+  print("Nonvanishing CM invariants:"),
+  %inv:cm_nonvanishing_invariants(),
+  for %m:1 thru length(%inv) do block (
+    %k:%inv[%m],
+    print(cm_invariant_name[%k],"=",cm_invariant[%k])
   )
+)$
+
+
+cm_assert_vanishing_invariants():=block (
+  
 )$
