@@ -1,7 +1,12 @@
 /*-----------------------------------------------------------------
   Carminati-McLenaghan invariants, 
     https://en.wikipedia.org/wiki/Carminati%E2%80%93McLenaghan_invariants
-  (c) 2015 B. Crowell, GPL v. 2 licensed
+  (c) 2015 B. Crowell
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License as
+  published by the Free Software Foundation; either version 2 of
+  the License, or (at your option) any later version.
  ------------------------------------------------------------------*/
 
 if dim#4 then error("Error: dim=",dim,", Carminati-McLenaghan invariants are only defined in 4 dimensions");
@@ -61,7 +66,6 @@ cm_parity(p):= block
 /* Levi-Civita tensor 
   This is the tensorial quantity. The orientation is defined implicitly by the order of the coordinates in
         the coordinate chart chosen.
-  This is not tested yet.
 */
 array(cm_eps,dim,dim,dim,dim);
 cm_root_gdet:sqrt(-gdet); /* gdet is determinant of metric, computed by cmetric */
