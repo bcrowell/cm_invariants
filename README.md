@@ -37,6 +37,10 @@ The output is as follows:
                  3  - 9
        W2 = - 6 m  r    
 
+After you call cm_invariants(), the invariants are all calculated and stored in the array
+cm_invariant, stored in the order R, R1, R2, R3, M3, M4, W1, W2, M1, M2, M5.
+The names ("R", "R1", ...) are stored in the array cm_invariant_name.
+
 Options
 =======
 By default we have
