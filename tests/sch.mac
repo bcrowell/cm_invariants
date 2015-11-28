@@ -7,6 +7,7 @@ lg:matrix([(1-2*m/r),0,0,0],
           [0,0,-r^2,0],
           [0,0,0,-r^2*sin(theta)^2])$
 load("cm_invariants.mac");
+cm_invariants();
 
 cm_do_tests();
 

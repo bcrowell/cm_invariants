@@ -7,6 +7,7 @@ lg:matrix([u,0,0,0],
   [0,0,0,-1]
 );
 load("cm_invariants.mac");
+cm_invariants();
 
 cm_print_invariants();
 

@@ -9,32 +9,52 @@
   the License, or (at your option) any later version.
  ------------------------------------------------------------------*/
 
-if dim#4 then error("Error: dim=",dim,", Carminati-McLenaghan invariants are only defined in 4 dimensions");
+/*
+  First set up the metric, then call cm_invariants() to calculate all invariants.
+*/
+cm_invariants():=block (
+  if dim#4 then error("Error: dim=",dim,", Carminati-McLenaghan invariants are only defined in 4 dimensions"),
 
-/* Make sure the following have been calculated: */
-cmetric(false)$
-lriemann(false)$
-uriemann(false)$
-ricci(false)$ /* compute the ricci tensor ric[i,j]=R_ij */
-uricci(false)$ /* compute the mixed ricci tensor uric[i,j]=R_i^j */
-weyl(false)$ /* compute Weyl tensor */
+  /* Make sure the following have been calculated: */
+  cmetric(false),
+  lriemann(false),
+  uriemann(false),
+  ricci(false), /* compute the ricci tensor ric[i,j]=R_ij */
+  uricci(false), /* compute the mixed ricci tensor uric[i,j]=R_i^j */
+  weyl(false), /* compute Weyl tensor */
+
+  cm_init_globals(),
+  cm_calculate_all_invariants()
+)$
 
 /* R=R_i^i, the Ricci scalar, scalar curvature */
 cm_r():=trigsimp(ratsimp(sum(uric[i,i],i,1,dim)))$
 
-/* trace-free Ricci tensor, cm_s[i,j]=S_ij=R_ij-(1/4)Rg_ij */
-array(cm_s,dim,dim);
-for i thru dim do
-  for j thru dim do
-    cm_s[i,j] : ric[i,j]-(1/4)*cm_r()*lg[i,j]$
-/* mixed version, cm_us[i,j]=S^i_j */
-for i thru dim do
-  for j thru dim do
-    cm_us[i,j] : sum(ug[i,k]*cm_s[k,j],k,1,dim)$
-/* fully contravariant version, cm_uus[i,j]=S^ij */
-for i thru dim do
-  for j thru dim do
-    cm_uus[i,j] : sum(ug[j,k]*cm_us[i,k],k,1,dim)$
+/*
+  Calculate all the tensors that we'll be repeatedly referring to when calculating
+  the invariants.
+*/
+cm_init_globals():=block (
+  cm_init_eps(),
+  cm_init_s(),
+  cm_init_weyl()
+)$
+
+cm_init_s():=block (
+  /* trace-free Ricci tensor, cm_s[i,j]=S_ij=R_ij-(1/4)Rg_ij */
+  array(cm_s,dim,dim),
+  for i thru dim do
+    for j thru dim do
+      cm_s[i,j] : ric[i,j]-(1/4)*cm_r()*lg[i,j],
+  /* mixed version, cm_us[i,j]=S^i_j */
+  for i thru dim do
+    for j thru dim do
+      cm_us[i,j] : sum(ug[i,k]*cm_s[k,j],k,1,dim),
+  /* fully contravariant version, cm_uus[i,j]=S^ij */
+  for i thru dim do
+    for j thru dim do
+      cm_uus[i,j] : sum(ug[j,k]*cm_us[i,k],k,1,dim)
+)$
 
 /* R_1=(1/4)S^i_j S^j_i */
 cm_r1():=trigsimp(ratsimp((1/4)*sum(sum(cm_us[i,j]*cm_us[j,i],j,1,dim),i,1,dim)))$
@@ -67,16 +87,21 @@ cm_parity(p):= block
   This is the tensorial quantity. The orientation is defined implicitly by the order of the coordinates in
         the coordinate chart chosen.
 */
-array(cm_eps,dim,dim,dim,dim);
-cm_root_gdet:sqrt(-gdet); /* gdet is determinant of metric, computed by cmetric */
-for i thru dim do
-  for j thru dim do
-    for k thru dim do
-      for l thru dim do
-        cm_eps[i,j,k,l] : trigsimp(ratsimp(cm_root_gdet*cm_parity([i,j,k,l])));
-
+cm_init_eps():= block (
+  array(cm_eps,dim,dim,dim,dim),
+  cm_root_gdet:sqrt(-gdet), /* gdet is determinant of metric, computed by cmetric */
+  for i thru dim do
+    for j thru dim do
+      for k thru dim do
+        for l thru dim do
+          cm_eps[i,j,k,l] : trigsimp(ratsimp(cm_root_gdet*cm_parity([i,j,k,l])))
+)$
 
 /*
+  Initialize the Weyl tensor in all its flavors.
+*/
+cm_init_weyl():=block (
+  /*
   Weyl tensor, C_ijkl
 
   Problems with lack of documentation on how indices of weyl[] are defined.
@@ -91,69 +116,66 @@ for i thru dim do
        weyl[l,j,i,k]:ctaylor(lriem[l,j,i,k]+
   So it's all lower indices.
   I have three types of checks I can do: (1) symmetry, (2) units, (3) trace-free.
- */
-array(cm_c,dim,dim,dim,dim);
-for i thru dim do
-  for j thru dim do
-    for k thru dim do
-      for l thru dim do
-        cm_c[l,i,j,k]:weyl[i,j,k,l]
-$
+  */
+  array(cm_c,dim,dim,dim,dim),
+  for i thru dim do
+    for j thru dim do
+      for k thru dim do
+        for l thru dim do
+          cm_c[l,i,j,k]:weyl[i,j,k,l],
 
-/* mixed form of Weyl tensor, C_ij^kl
-*/
-array(cm_c_mixed,dim,dim,dim,dim);
-for i thru dim do
-  for j thru dim do
-    for k thru dim do
-      for l thru dim do
-        cm_c_mixed[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[k,%m]*ug[l,%n]*cm_c[i,j,%m,%n],
-          %m,1,dim),%n,1,dim)))
-$
+  /* mixed form of Weyl tensor, C_ij^kl
+  */
+  array(cm_c_mixed,dim,dim,dim,dim),
+  for i thru dim do
+    for j thru dim do
+      for k thru dim do
+        for l thru dim do
+          cm_c_mixed[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+              ug[k,%m]*ug[l,%n]*cm_c[i,j,%m,%n],
+            %m,1,dim),%n,1,dim))),
 
-/* upper-index form of Weyl tensor, C^ijkl
-*/
-array(cm_c_upper,dim,dim,dim,dim);
-for i thru dim do
-  for j thru dim do
-    for k thru dim do
-      for l thru dim do
-        cm_c_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[i,%m]*ug[j,%n]*cm_c_mixed[%m,%n,k,l],
-          %m,1,dim),%n,1,dim)));
+  /* upper-index form of Weyl tensor, C^ijkl
+  */
+  array(cm_c_upper,dim,dim,dim,dim),
+  for i thru dim do
+    for j thru dim do
+      for k thru dim do
+        for l thru dim do
+          cm_c_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+              ug[i,%m]*ug[j,%n]*cm_c_mixed[%m,%n,k,l],
+            %m,1,dim),%n,1,dim))),
 
+  /* left Hodge dual of Weyl tensor, *C_ijkl */
+  array(cm_c_star,dim,dim,dim,dim),
+  for i thru dim do
+    for j thru dim do
+      for k thru dim do
+        for l thru dim do
+          cm_c_star[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+              (1/2)*cm_eps[k,l,%m,%n]*cm_c_mixed[i,j,%m,%n],
+            %m,1,dim),%n,1,dim))),
 
-/* left Hodge dual of Weyl tensor, *C_ijkl */
-array(cm_c_star,dim,dim,dim,dim);
-for i thru dim do
-  for j thru dim do
-    for k thru dim do
-      for l thru dim do
-        cm_c_star[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            (1/2)*cm_eps[k,l,%m,%n]*cm_c_mixed[i,j,%m,%n],
-          %m,1,dim),%n,1,dim)));
+  /* mixed form, *C_ij^kl */
+  array(cm_c_star_mixed,dim,dim,dim,dim),
+  for i thru dim do
+    for j thru dim do
+      for k thru dim do
+        for l thru dim do
+          cm_c_star_mixed[i,j,k,l] : sum(sum(
+              ug[k,%m]*ug[l,%n]*cm_c_star[i,j,%m,%n],
+            %m,1,dim),%n,1,dim),
 
-/* mixed form, *C_ij^kl */
-array(cm_c_star_mixed,dim,dim,dim,dim);
-for i thru dim do
-  for j thru dim do
-    for k thru dim do
-      for l thru dim do
-        cm_c_star_mixed[i,j,k,l] : sum(sum(
-            ug[k,%m]*ug[l,%n]*cm_c_star[i,j,%m,%n],
-          %m,1,dim),%n,1,dim);
-
-/* mixed form, *C^ijkl */
-array(cm_c_star_upper,dim,dim,dim,dim);
-for i thru dim do
-  for j thru dim do
-    for k thru dim do
-      for l thru dim do
-        cm_c_star_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
-            ug[i,%m]*ug[j,%n]*cm_c_star_mixed[%m,%n,k,l],
-          %m,1,dim),%n,1,dim)));
-
+  /* mixed form, *C^ijkl */
+  array(cm_c_star_upper,dim,dim,dim,dim),
+  for i thru dim do
+    for j thru dim do
+      for k thru dim do
+        for l thru dim do
+          cm_c_star_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+              ug[i,%m]*ug[j,%n]*cm_c_star_mixed[%m,%n,k,l],
+            %m,1,dim),%n,1,dim)))
+)$
 
 cm_m3():=trigsimp(ratsimp(
   (1/16)*sum(sum(sum(sum(sum(sum(
@@ -206,9 +228,11 @@ cm_m5():=trigsimp(ratsimp(
 ))$
 
 
-cm_invariant:[cm_r(),cm_r1(),cm_r2(),cm_r3(),cm_m3(),cm_m4(),cm_w1(),cm_w2(),cm_m1(),cm_m2(),cm_m5()]$
-cm_invariant_name:
-              ["R","R1","R2","R3","M3","M4","W1","W2","M1","M2","M5"]$
+cm_calculate_all_invariants():=block (
+  cm_invariant:[cm_r(),cm_r1(),cm_r2(),cm_r3(),cm_m3(),cm_m4(),cm_w1(),cm_w2(),cm_m1(),cm_m2(),cm_m5()],
+  cm_invariant_name:
+              ["R","R1","R2","R3","M3","M4","W1","W2","M1","M2","M5"]
+)$
 
 cm_nonvanishing_invariants():= block (
   result:[],
@@ -248,7 +272,8 @@ cm_assert(explanation,condition):=block (
   ),
   if condition=unknown then block (
     print("warning: cm_assert says the test '",explanation,"' yielded ",condition)
-  )
+  ),
+  true
 )$
 
 /* function to check for antisymmetry of a tensor on indices 1,2 and 3,4 */
@@ -281,9 +306,7 @@ cm_check_traceless(t,explanation):=block (
         cm_assert(sconcat(explanation,", not traceless on [",i,",l,l,",j,"] trace=",tr23),
                     is(equal(tr23,0)))
       )
-)
-$
-
+)$
 
 cm_do_tests():=block (
   cm_assert("S^k_k=0",is(equal(trigsimp(ratsimp(sum(cm_us[%k,%k],%k,1,dim))),0))),

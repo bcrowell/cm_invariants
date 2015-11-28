@@ -9,3 +9,6 @@ test:
 	maxima --very-quiet -r "load(\"tests/sch.mac\")$$"
 	maxima --very-quiet -r "load(\"tests/end.mac\")$$"
 	maxima --very-quiet -r "load(\"tests/de_sitter.mac\")$$"
+
+clean:
+	rm -f *~ tests/*~
