@@ -121,7 +121,7 @@ the Weyl tensor, i.e., *C_ijkl, *C_ij^kl, *C^ijkl.
 
 ## cm_calculate_all_invariants()
 
-Function that calculates all the invariantes and stores the results in
+Function that calculates all the invariants and stores the results in
 the array cm_invariant. 
 
 ## cm_invariant
@@ -143,8 +143,8 @@ which the CM invariant vanishes.
 Prints out all the nonvanishing CM invariants, or a message saying
 that all of them vanish. 
 
-Test
-====
+Tests
+=====
 
 The code is distributed along with a test suite in the subdirectory
 named tests. To test your installation, do "make test", which will run
@@ -177,6 +177,11 @@ The program end.mac calculates the invariants for a somewhat
 pathological spacetime adapted from an example by Geroch, in which
 timelike geodesics are incomplete as time approaches infinity. All of
 the CM invariants remain finite, however.
+
+All of the test programs call the function cm_do_tests(). This
+function checks that the traceless Ricci tensor is indeed traceless,
+checks the symmetries of the Weyl tensor and its Hodge dual, and
+checks the tracelessness of the Weyl tensor and its Hodge dual. 
 
 To do
 =====
