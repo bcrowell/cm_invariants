@@ -10,9 +10,8 @@ Installing
 ==========
 
 The package is contained in the file cm_invariants.mac, which can be
-installed wherever you like. The code is distributed along with a test
-suite in the subdirectory named tests. To test your installation, do
-"make test". 
+installed wherever you like. If you wish, you can test your installation
+by running the test suite, as described below.
 
 Basic use
 =========
@@ -143,6 +142,41 @@ which the CM invariant vanishes.
 
 Prints out all the nonvanishing CM invariants, or a message saying
 that all of them vanish. 
+
+Test
+====
+
+The code is distributed along with a test suite in the subdirectory
+named tests. To test your installation, do "make test", which will run
+the maxima programs located in that directory, one after another. The
+following is a brief description of what these tests are.
+
+The program parity.mac tests that the cm_parity() function works
+correctly in a few cases.
+
+The rest of the test programs set up the metric for some spacetime,
+calculate its CM invariants, print them out, and, in some cases, check
+that they seem to be correct. Several of these tests (flat.mac,
+plane_wave.mac, and vsi.mac) are spacetimes for which it is known on
+theoretical grounds that we should get zero for all curvature
+invariants that are continuous functions of the Riemann tensor and its
+derivatives (not just the CM invariants). If any of these fail to be
+zero, an error is generated.
+
+The programs sch.mac, closed.mac, and de_sitter.mac do the
+calculations for the Schwarzschild spactime; a closed,
+radiation-dominated FLRW cosmology; and an FLRW cosmology containing
+only a repulsive cosmological constant (de Sitter space). For the
+Schwarzschild and closed spacetimes, we expect some curvature
+singularities where certain CM invariants blow up; the test programs
+check for this and throw an error if this is not the case.  In the
+case of de Sitter space, the output is a constant, which makes sense
+because of the space's time-translation symmetry. 
+
+The program end.mac calculates the invariants for a somewhat
+pathological spacetime adapted from an example by Geroch, in which
+timelike geodesics are incomplete as time approaches infinity. All of
+the CM invariants remain finite, however.
 
 To do
 =====
