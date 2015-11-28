@@ -9,6 +9,9 @@
   the License, or (at your option) any later version.
  ------------------------------------------------------------------*/
 
+cm_trig_simp:true; /* apply trigonometric substitutions? */
+cm_rat_simp:true;  /* rationally simplify results? */
+
 /*
   First set up the metric, then call cm_invariants() to calculate all invariants.
 */
@@ -27,8 +30,15 @@ cm_invariants():=block (
   cm_calculate_all_invariants()
 )$
 
+cm_do_trig_simp(x):=block(
+  if cm_trig_simp then trigsimp(x) else x
+)$
+cm_do_rat_simp(x):=block(
+  if cm_trig_simp then ratsimp(x) else x
+)$
+
 /* R=R_i^i, the Ricci scalar, scalar curvature */
-cm_r():=trigsimp(ratsimp(sum(uric[i,i],i,1,dim)))$
+cm_r():=cm_do_trig_simp(cm_do_rat_simp(sum(uric[i,i],i,1,dim)))$
 
 /*
   Calculate all the tensors that we'll be repeatedly referring to when calculating
@@ -57,13 +67,13 @@ cm_init_s():=block (
 )$
 
 /* R_1=(1/4)S^i_j S^j_i */
-cm_r1():=trigsimp(ratsimp((1/4)*sum(sum(cm_us[i,j]*cm_us[j,i],j,1,dim),i,1,dim)))$
+cm_r1():=cm_do_trig_simp(cm_do_rat_simp((1/4)*sum(sum(cm_us[i,j]*cm_us[j,i],j,1,dim),i,1,dim)))$
 
 /* R_2=(-1/8)S^i_j S^j_k S^k_i */
-cm_r2():=trigsimp(ratsimp((-1/9)*sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,i],k,1,dim),j,1,dim),i,1,dim)))$
+cm_r2():=cm_do_trig_simp(cm_do_rat_simp((-1/9)*sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,i],k,1,dim),j,1,dim),i,1,dim)))$
 
 /* R_3=(1/16)S^i_j S^j_k S^k_l S^l_i */
-cm_r3():=trigsimp(ratsimp((1/16)*sum(sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,l]*cm_us[l,i],
+cm_r3():=cm_do_trig_simp(cm_do_rat_simp((1/16)*sum(sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,l]*cm_us[l,i],
                                         l,1,dim),k,1,dim),j,1,dim),i,1,dim)))$
 
 /* Input p is an array of dim integers; this routine is meant to be used for small arrays, will
@@ -94,7 +104,7 @@ cm_init_eps():= block (
     for j thru dim do
       for k thru dim do
         for l thru dim do
-          cm_eps[i,j,k,l] : trigsimp(ratsimp(cm_root_gdet*cm_parity([i,j,k,l])))
+          cm_eps[i,j,k,l] : cm_do_trig_simp(cm_do_rat_simp(cm_root_gdet*cm_parity([i,j,k,l])))
 )$
 
 /*
@@ -131,7 +141,7 @@ cm_init_weyl():=block (
     for j thru dim do
       for k thru dim do
         for l thru dim do
-          cm_c_mixed[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+          cm_c_mixed[i,j,k,l] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
               ug[k,%m]*ug[l,%n]*cm_c[i,j,%m,%n],
             %m,1,dim),%n,1,dim))),
 
@@ -142,7 +152,7 @@ cm_init_weyl():=block (
     for j thru dim do
       for k thru dim do
         for l thru dim do
-          cm_c_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+          cm_c_upper[i,j,k,l] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
               ug[i,%m]*ug[j,%n]*cm_c_mixed[%m,%n,k,l],
             %m,1,dim),%n,1,dim))),
 
@@ -152,7 +162,7 @@ cm_init_weyl():=block (
     for j thru dim do
       for k thru dim do
         for l thru dim do
-          cm_c_star[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+          cm_c_star[i,j,k,l] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
               (1/2)*cm_eps[k,l,%m,%n]*cm_c_mixed[i,j,%m,%n],
             %m,1,dim),%n,1,dim))),
 
@@ -172,18 +182,18 @@ cm_init_weyl():=block (
     for j thru dim do
       for k thru dim do
         for l thru dim do
-          cm_c_star_upper[i,j,k,l] : trigsimp(ratsimp(sum(sum(
+          cm_c_star_upper[i,j,k,l] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
               ug[i,%m]*ug[j,%n]*cm_c_star_mixed[%m,%n,k,l],
             %m,1,dim),%n,1,dim)))
 )$
 
-cm_m3():=trigsimp(ratsimp(
+cm_m3():=cm_do_trig_simp(cm_do_rat_simp(
   (1/16)*sum(sum(sum(sum(sum(sum(
     cm_uus[b,c]*cm_s[e,f]*(cm_c[a,b,c,d]*cm_c_upper[a,e,f,d]+cm_c_star[a,b,c,d]*cm_c_star_upper[a,e,f,d]),
   a,1,dim),b,1,dim),c,1,dim),d,1,dim),e,1,dim),f,1,dim)
 ))$
 
-cm_m4():=trigsimp(ratsimp(
+cm_m4():=cm_do_trig_simp(cm_do_rat_simp(
   (-1/32)*sum(sum(sum(sum(sum(sum(sum(
     cm_uus[%a,%g]*cm_uus[%ee,%f]*cm_us[%c,%d]*(
       cm_c_mixed[%a,%c,%d,%b]*cm_c[%b,%ee,%f,%g]+cm_c_star_mixed[%a,%c,%d,%b]*cm_c_star[%b,%ee,%f,%g]
@@ -191,25 +201,25 @@ cm_m4():=trigsimp(ratsimp(
   %a,1,dim),%b,1,dim),%c,1,dim),%d,1,dim),%ee,1,dim),%f,1,dim),%g,1,dim)
 ))$
 
-cm_w1():=trigsimp(ratsimp(
+cm_w1():=cm_do_trig_simp(cm_do_rat_simp(
   (1/8)*sum(sum(sum(sum(
     (cm_c[%a,%b,%c,%d]+%i*cm_c_star[%a,%b,%c,%d])*cm_c_upper[%a,%b,%c,%d],
   %a,1,dim),%b,1,dim),%c,1,dim),%d,1,dim)
 ))$
 
-cm_w2():=trigsimp(ratsimp(
+cm_w2():=cm_do_trig_simp(cm_do_rat_simp(
   (-1/16)*sum(sum(sum(sum(sum(sum(
     (cm_c_mixed[%a,%b,%c,%d]+%i*cm_c_star_mixed[%a,%b,%c,%d])*cm_c_mixed[%c,%d,%ee,%f]*cm_c_mixed[%ee,%f,%a,%b],
   %a,1,dim),%b,1,dim),%c,1,dim),%d,1,dim),%ee,1,dim),%f,1,dim)
 ))$
 
-cm_m1():=trigsimp(ratsimp(
+cm_m1():=cm_do_trig_simp(cm_do_rat_simp(
   (1/8)*sum(sum(sum(sum(
     cm_uus[%a,%b]*cm_uus[%c,%d]*(cm_c[%a,%c,%d,%b]+%i*cm_c_star[%a,%c,%d,%b]),
   %a,1,dim),%b,1,dim),%c,1,dim),%d,1,dim)
 ))$
 
-cm_m2():=trigsimp(ratsimp(
+cm_m2():=cm_do_trig_simp(cm_do_rat_simp(
   (1/16)*sum(sum(sum(sum(sum(sum(
     cm_uus[%b,%c]*cm_s[%ee,%f]*(
       (cm_c[%a,%b,%c,%d]*cm_c_upper[%a,%ee,%f,%d]-cm_c_star[%a,%c,%d,%b]*cm_c_star_upper[%a,%ee,%f,%d])
@@ -219,7 +229,7 @@ cm_m2():=trigsimp(ratsimp(
   %a,1,dim),%b,1,dim),%c,1,dim),%d,1,dim),%ee,1,dim),%f,1,dim)
 ))$
 
-cm_m5():=trigsimp(ratsimp(
+cm_m5():=cm_do_trig_simp(cm_do_rat_simp(
   (1/32)*sum(sum(sum(sum(sum(sum(sum(sum(
     cm_uus[%c,%d]*cm_uus[%ee,%f]*(cm_c_upper[%a,%g,%h,%b]+%i*cm_c_upper[%a,%g,%h,%b])*(
        cm_c[%a,%c,%d,%b]*cm_c[%g,%ee,%f,%h]+cm_c_star[%a,%c,%d,%b]*cm_c_star[%g,%ee,%f,%h]
@@ -309,7 +319,7 @@ cm_check_traceless(t,explanation):=block (
 )$
 
 cm_do_tests():=block (
-  cm_assert("S^k_k=0",is(equal(trigsimp(ratsimp(sum(cm_us[%k,%k],%k,1,dim))),0))),
+  cm_assert("S^k_k=0",is(equal(cm_do_trig_simp(cm_do_rat_simp(sum(cm_us[%k,%k],%k,1,dim))),0))),
   cm_check_symmetry(cm_c,"C_ijkl is symmetric in i,j and k,l"),
   cm_check_symmetry(cm_c_mixed,"C_ij^kl is symmetric in i,j and k,l"),
   cm_check_symmetry(cm_c_star,"*C_ijkl is symmetric in i,j and k,l"),
