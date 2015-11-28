@@ -149,7 +149,10 @@ Tests
 The code is distributed along with a test suite in the subdirectory
 named tests. To test your installation, do "make test", which will run
 the maxima programs located in that directory, one after another. The
-following is a brief description of what these tests are.
+following is a brief description of what these tests are. They are
+somewhat automated, so that many possible bugs will result in an error
+message. However, some of the output does need to be inspected by a
+human.
 
 The program parity.mac tests that the cm_parity() function works
 correctly in a few cases.
