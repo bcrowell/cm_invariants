@@ -45,3 +45,9 @@ By default we have
     cm_rat_simp:true;  /* rationally simplify results? */
 
 To disable these simplifications, set these variables to false after calling cm_invariants().
+
+Bugs
+====
+The package uses local variables with the names a, b, c, d, e, f, i, j, k, and l.
+If the metric depends on parameters with the same names, the results of the calculations
+will be incorrect.

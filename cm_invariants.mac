@@ -38,7 +38,7 @@ cm_do_rat_simp(x):=block(
 )$
 
 /* R=R_i^i, the Ricci scalar, scalar curvature */
-cm_r():=cm_do_trig_simp(cm_do_rat_simp(sum(uric[i,i],i,1,dim)))$
+cm_r():=cm_do_trig_simp(cm_do_rat_simp(sum(uric[%ii,%ii],%ii,1,dim)))$
 
 /*
   Calculate all the tensors that we'll be repeatedly referring to when calculating
@@ -53,17 +53,17 @@ cm_init_globals():=block (
 cm_init_s():=block (
   /* trace-free Ricci tensor, cm_s[i,j]=S_ij=R_ij-(1/4)Rg_ij */
   array(cm_s,dim,dim),
-  for i thru dim do
-    for j thru dim do
-      cm_s[i,j] : ric[i,j]-(1/4)*cm_r()*lg[i,j],
+  for %ii thru dim do
+    for %jj thru dim do
+      cm_s[%ii,%jj] : ric[%ii,%jj]-(1/4)*cm_r()*lg[%ii,%jj],
   /* mixed version, cm_us[i,j]=S^i_j */
-  for i thru dim do
-    for j thru dim do
-      cm_us[i,j] : sum(ug[i,k]*cm_s[k,j],k,1,dim),
+  for %ii thru dim do
+    for %jj thru dim do
+      cm_us[%ii,%jj] : sum(ug[%ii,%kk]*cm_s[%kk,%jj],%kk,1,dim),
   /* fully contravariant version, cm_uus[i,j]=S^ij */
-  for i thru dim do
-    for j thru dim do
-      cm_uus[i,j] : sum(ug[j,k]*cm_us[i,k],k,1,dim)
+  for %ii thru dim do
+    for %jj thru dim do
+      cm_uus[%ii,%jj] : sum(ug[%jj,%kk]*cm_us[%ii,%kk],%kk,1,dim)
 )$
 
 /* R_1=(1/4)S^i_j S^j_i */
