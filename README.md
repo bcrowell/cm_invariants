@@ -60,6 +60,15 @@ for some other metric within the same script, then you need to tell ctensor to f
 the first metric. To do this, call the function init_ctensor(), then set up your
 new metric, and call cm_invariants() again.
 
+Public functions
+================
+The following functions are the public interface of the package.
+
+# cm_trig_simp
+
+Boolean variable, true by default. If true, then trigonometric substitutions are
+applied to all results.
+
 To do
 =====
 Find some known-good expressions for the CM invariants in some spacetimes,
