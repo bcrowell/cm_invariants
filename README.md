@@ -53,8 +53,16 @@ for some other metric within the same script, then you need to tell ctensor to f
 the first metric. To do this, call the function init_ctensor(), then set up your
 new metric, and call cm_invariants() again.
 
-Bugs
-====
+To do
+=====
+Find some known-good expressions for the CM invariants in some spacetimes,
+either published in the literature or
+calculated using the GRTensorII package, and check the results against those in some cases
+where the results are finite.
+
+Make use of symmetries to improve efficiency.
+
 The package uses local variables with the names a, b, c, d, e, f, i, j, k, and l.
 If the metric depends on parameters with the same names, the results of the calculations
-will be incorrect.
+will be incorrect. This should be fixed by completing the process of renaming all the local
+loop indices to %aa, %bb, etc.
