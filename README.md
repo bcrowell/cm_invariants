@@ -46,8 +46,8 @@ By default we have
 
 To disable these simplifications, set these variables to false after calling cm_invariants().
 
-Starting over
-=============
+Starting over with a new metric
+===============================
 If you've calculated the invariants for one metric and then want to calculate them
 for some other metric within the same script, then you need to tell ctensor to forget
 the first metric. To do this, call the function init_ctensor(), then set up your
