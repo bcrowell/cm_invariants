@@ -255,13 +255,21 @@ cm_nonvanishing_invariants():= block (
 
 cm_print_invariants():=block (
   exptdispflag:false,
-  print("Nonvanishing CM invariants:"),
   %inv:cm_nonvanishing_invariants(),
-  for %m:1 thru length(%inv) do block (
-    %k:%inv[%m],
-    print("  ",cm_invariant_name[%k],"=",cm_invariant[%k])
+  if length(%inv)=0 then block (
+    print("All CM invariants are zero.")
+  ) else block (
+    print("Nonvanishing CM invariants:"),
+    for %m:1 thru length(%inv) do block (
+      %k:%inv[%m],
+      print("  ",cm_invariant_name[%k],"=",cm_invariant[%k])
+    )
   )
 )$
+
+/*
+    Testing and error reporting.
+ */
 
 cm_assert_vanishing_invariants():=block (
   %inv:cm_nonvanishing_invariants(),

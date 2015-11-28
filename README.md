@@ -40,6 +40,9 @@ The output is as follows:
 After you call cm_invariants(), the invariants are all calculated and stored in the array
 cm_invariant, stored in the order R, R1, R2, R3, M3, M4, W1, W2, M1, M2, M5.
 The names ("R", "R1", ...) are stored in the array cm_invariant_name.
+The array cm_nonvanishing_invariants contains a list of the array indices of the
+invariants that are nonzero, e.g., [7,8] in the case of the Schwarzschild metric
+to show that W1 and W2 are nonzero.
 
 Options
 =======
