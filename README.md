@@ -3,16 +3,16 @@ cm_invariants
 
 Ben Crowell, Fullerton College
 
-An implementation of the Carminati-McLenaghan invariants in
-Maxima, using ctensor.
+An implementation of the Carminati-McLenaghan invariants in Maxima,
+using ctensor. 
 
 Installing
 ==========
 
-The package is contained in the file cm_invariants.mac, which
-can be installed wherever you like. The code is distributed along
-with a test suite in the subdirectory named tests. To test your
-installation, do "make test".
+The package is contained in the file cm_invariants.mac, which can be
+installed wherever you like. The code is distributed along with a test
+suite in the subdirectory named tests. To test your installation, do
+"make test". 
 
 Basic use
 =========
@@ -37,12 +37,13 @@ The output is as follows:
                  3  - 9
        W2 = - 6 m  r    
 
-After you call cm_invariants(), the invariants are all calculated and stored in the array
-cm_invariant, stored in the order R, R1, R2, R3, M3, M4, W1, W2, M1, M2, M5.
-The names ("R", "R1", ...) are stored in the array cm_invariant_name.
-The array cm_nonvanishing_invariants contains a list of the array indices of the
-invariants that are nonzero, e.g., [7,8] in the case of the Schwarzschild metric
-to show that W1 and W2 are nonzero.
+After you call cm_invariants(), the invariants are all calculated and
+stored in the array cm_invariant, stored in the order R, R1, R2, R3,
+M3, M4, W1, W2, M1, M2, M5.  The names ("R", "R1", ...) are stored in
+the array cm_invariant_name.  The array cm_nonvanishing_invariants
+contains a list of the array indices of the invariants that are
+nonzero, e.g., [7,8] in the case of the Schwarzschild metric to show
+that W1 and W2 are nonzero. 
 
 Options
 =======
@@ -51,34 +52,110 @@ By default we have
     cm_trig_simp:true; /* apply trigonometric substitutions? */
     cm_rat_simp:true;  /* rationally simplify results? */
 
-To disable these simplifications, set these variables to false after calling cm_invariants().
+To disable these simplifications, set these variables to false after
+calling cm_invariants(). 
 
 Starting over with a new metric
 ===============================
-If you've calculated the invariants for one metric and then want to calculate them
-for some other metric within the same script, then you need to tell ctensor to forget
-the first metric. To do this, call the function init_ctensor(), then set up your
-new metric, and call cm_invariants() again.
+
+If you've calculated the invariants for one metric and then want to
+calculate them for some other metric within the same script, then you
+need to tell ctensor to forget the first metric. To do this, call the
+function init_ctensor(), then set up your new metric, and call
+cm_invariants() again. 
 
 Public functions
 ================
-The following functions are the public interface of the package.
 
-# cm_trig_simp
+The following functions and variables are the public interface of the
+package. 
 
-Boolean variable, true by default. If true, then trigonometric substitutions are
-applied to all results.
+## cm_trig_simp
+
+Global boolean variable, true by default. If true, then trigonometric
+substitutions are applied to all results. To turn off this
+simplification, set this variable to false after loading the package. 
+
+## cm_rat_simp
+
+Same as cm_trig_simp but for rational simplifications.
+
+## cm_invariants()
+
+Function that computes various tensors from the metric, and then
+computes all the CM invariants. 
+
+## cm_r(),cm_r1(),cm_r2(),cm_r3(),cm_m3(),cm_m4(),cm_w1(),cm_w2(),cm_m1(),cm_m2(),cm_m5()
+
+Functions that calculate the individual CM invariants.
+
+## cm_s, cm_us, cm_uus
+
+Global arrays holding the trace-free Ricci tensor,
+cm_s[i,j]=S_ij=R_ij-(1/4)Rg_ij, as well as its fully contravariant and
+mixed versions cm_uus[i,j]=S^ij and cm_us[i,j]=S^i_j. 
+
+## cm_parity(p)
+
+A function that returns -1, 0, or +1, depending on whether p is an
+even or odd permutation away from being sorted.  The input p is an
+array of integers. This routine is meant to be used for small arrays,
+and will not have good performance on large arrays. 
+
+## cm_eps
+
+Global array containing the tensorial Levi-Civita tensor, i.e., the
+parity of its four indices, multiplied by the square root of minus the
+determinant of the metric. 
+
+## cm_c, cm_c_mixed, cm_c_upper
+
+Global arrays containing the Weyl tensor in the forms C_ijkl, C_ij^kl,
+and C^ijkl.  The array cm_c is simply a copy of ctensor's weyl[] with
+the indices reshuffled to conform to the literature, i.e.,
+cm_c[l,i,j,k]=weyl[i,j,k,l].
+
+## cm_c_star, cm_c_star_mixed, cm_c_star_upper
+
+Global arrays containing the left Hudge duals of the various forms of
+the Weyl tensor, i.e., *C_ijkl, *C_ij^kl, *C^ijkl. 
+
+## cm_calculate_all_invariants()
+
+Function that calculates all the invariantes and stores the results in
+the array cm_invariant. 
+
+## cm_invariant
+
+Global array containing
+[cm_r(),cm_r1(),cm_r2(),cm_r3(),cm_m3(),cm_m4(),cm_w1(),cm_w2(),cm_m1(),cm_m2(),cm_m5()]. 
+
+## cm_invariant_name
+
+Global array containing ["R","R1","R2","R3","M3","M4","W1","W2","M1","M2","M5"].
+
+## cm_nonvanishing_invariants()
+
+Function that returns a list of array indices in cm_invariant_name for
+which the CM invariant vanishes. 
+
+## cm_print_invariants()
+
+Prints out all the nonvanishing CM invariants, or a message saying
+that all of them vanish. 
 
 To do
 =====
-Find some known-good expressions for the CM invariants in some spacetimes,
-either published in the literature or
-calculated using the GRTensorII package, and check the results against those in some cases
-where the results are finite.
+
+Find some known-good expressions for the CM invariants in some
+spacetimes, either published in the literature or calculated using the
+GRTensorII package, and check the results against those in some cases
+where the results are finite. 
 
 Make use of symmetries to improve efficiency.
 
-The package uses local variables with the names a, b, c, d, e, f, i, j, k, and l.
-If the metric depends on parameters with the same names, the results of the calculations
-will be incorrect. This should be fixed by completing the process of renaming all the local
-loop indices to %aa, %bb, etc.
+The package uses local variables with the names a, b, c, d, e, f, i,
+j, k, and l.  If the metric depends on parameters with the same names,
+the results of the calculations will be incorrect. This should be
+fixed by completing the process of renaming all the local loop indices
+to %aa, %bb, etc. 

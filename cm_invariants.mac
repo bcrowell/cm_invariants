@@ -76,7 +76,7 @@ cm_r2():=cm_do_trig_simp(cm_do_rat_simp((-1/9)*sum(sum(sum(cm_us[i,j]*cm_us[j,k]
 cm_r3():=cm_do_trig_simp(cm_do_rat_simp((1/16)*sum(sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,l]*cm_us[l,i],
                                         l,1,dim),k,1,dim),j,1,dim),i,1,dim)))$
 
-/* Input p is an array of dim integers; this routine is meant to be used for small arrays, will
+/* Input p is an array of integers; this routine is meant to be used for small arrays, will
    not have good performance on large arrays.
    Returns -1, 0, or +1, depending on whether p is an even or odd permutation away from being sorted.
    Algorithm: http://math.stackexchange.com/a/290787/13618

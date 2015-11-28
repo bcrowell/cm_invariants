@@ -12,3 +12,7 @@ test:
 
 clean:
 	rm -f *~ tests/*~
+
+doc:
+	# Convert README.md to html.
+	pandoc --from markdown_github --to html --standalone README.md --output doc.html
