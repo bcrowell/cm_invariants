@@ -300,13 +300,13 @@ cm_check_symmetry(t,explanation):=block (
     for j thru dim do
       for k thru dim do
         for l thru dim do block (
-          u:t[i,j,k,l],
-          v:t[j,i,k,l],
-          cm_assert(sconcat(explanation,", wrong symmetry on indices 1,2 at ",i,j,k,l," u,v=",u,",",v),
-                    is(equal(u,-v))),
-          v:t[i,j,l,k],
-          cm_assert(sconcat(explanation,", wrong symmetry on indices 3,4 at ",i,j,k,l," u,v=",u,",",v),
-                    is(equal(u,-v)))
+          %u:t[i,j,k,l],
+          %v:t[j,i,k,l],
+          cm_assert(sconcat(explanation,", wrong symmetry on indices 1,2 at ",i,j,k,l," u,v=",%u,",",%v),
+                    is(equal(%u,-%v))),
+          %v:t[i,j,l,k],
+          cm_assert(sconcat(explanation,", wrong symmetry on indices 3,4 at ",i,j,k,l," u,v=",%u,",",%v),
+                    is(equal(%u,-%v)))
       )
 )
 $
