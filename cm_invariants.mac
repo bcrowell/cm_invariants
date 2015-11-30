@@ -17,16 +17,7 @@ cm_rat_simp:true;  /* rationally simplify results? */
 */
 cm_invariants():=block (
   if dim#4 then error("Error: dim=",dim,", Carminati-McLenaghan invariants are only defined in 4 dimensions"),
-
-  /* Make sure the following have been calculated: */
-  cmetric(false),
-  lriemann(false),
-  uriemann(false),
-  ricci(false), /* compute the ricci tensor ric[i,j]=R_ij */
-  uricci(false), /* compute the mixed ricci tensor uric[i,j]=R_i^j */
-  weyl(false), /* compute Weyl tensor */
-
-  cm_init_globals(),
+  cm_init(),
   cm_calculate_all_invariants()
 )$
 
@@ -44,7 +35,15 @@ cm_r():=cm_do_trig_simp(cm_do_rat_simp(sum(uric[%ii,%ii],%ii,1,dim)))$
   Calculate all the tensors that we'll be repeatedly referring to when calculating
   the invariants.
 */
-cm_init_globals():=block (
+cm_init():=block (
+  /* Make sure the following have been calculated: */
+  cmetric(false),
+  lriemann(false),
+  uriemann(false),
+  ricci(false), /* compute the ricci tensor ric[i,j]=R_ij */
+  uricci(false), /* compute the mixed ricci tensor uric[i,j]=R_i^j */
+  weyl(false), /* compute Weyl tensor */
+  /* Compute some globals specific to the CM code: */
   cm_init_eps(),
   cm_init_s(),
   cm_init_weyl()
