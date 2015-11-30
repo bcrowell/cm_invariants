@@ -44,15 +44,26 @@ contains a list of the array indices of the invariants that are
 nonzero, e.g., [7,8] in the case of the Schwarzschild metric to show
 that W1 and W2 are nonzero. 
 
-Options
-=======
-By default we have
+Calculating only some of the invariants
+======================================= The full set of invariants
+includes polynomials of up to fifth order in the Riemann tensor.  In
+moderately complicated cases, the expressions for the components of
+the Riemann tensor itself can easily have hundreds or thousands of
+terms. If the Riemann tensor has, for example, 10^3 terms, then
+brute-force computation of a fifth-order polynomial in the Riemann
+tensor will involve something like 10^15 terms, which is obviously
+infeasible.  For this reason, it may be advantageous to compute only
+some of the invariants, or compute them one at a time in order to see
+how long it takes. This can be done as in the following example:
 
-    cm_trig_simp:true; /* apply trigonometric substitutions? */
-    cm_rat_simp:true;  /* rationally simplify results? */
+    load(ctensor)$
+    ct_coordsys(kerr_newman,all)$
+    load("cm_invariants.mac")$
+    cm_init()$
+    cm_r();
 
-To disable these simplifications, set these variables to false after
-calling cm_invariants(). 
+The calculation above takes about 10 minutes on my machine to
+determine that R=0 for the Kerr-Newman spacetime. 
 
 Starting over with a new metric
 ===============================
@@ -62,6 +73,16 @@ calculate them for some other metric within the same script, then you
 need to tell ctensor to forget the first metric. To do this, call the
 function init_ctensor(), then set up your new metric, and call
 cm_invariants() again. 
+
+Options
+=======
+By default we have
+
+    cm_trig_simp:true; /* apply trigonometric substitutions? */
+    cm_rat_simp:true;  /* rationally simplify results? */
+
+To disable these simplifications, set these variables to false after
+calling cm_invariants(). 
 
 Public functions
 ================
