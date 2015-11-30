@@ -4,7 +4,12 @@ cm_invariants
 Ben Crowell, Fullerton College
 
 An implementation of the Carminati-McLenaghan invariants in Maxima,
-using ctensor. 
+using ctensor. The original paper (paywalled) describing the CM
+invariants was Carminati and McLenaghan, J. Math. Phys. 32 (1991)
+3135.  There is a brief article on Wikipedia that describes them,
+https://en.wikipedia.org/wiki/Carminati%E2%80%93McLenaghan_invariants
+.  The notation used here is the same as the notation in the Wikipedia
+article. 
 
 Installing
 ==========
@@ -114,7 +119,8 @@ example above using the Kerr-Newman metric.
 
 ## cm_r(),cm_r1(),cm_r2(),cm_r3(),cm_m3(),cm_m4(),cm_w1(),cm_w2(),cm_m1(),cm_m2(),cm_m5()
 
-Functions that calculate the individual CM invariants.
+Functions that calculate the individual CM invariants. The names
+follow the notation defined in the Wikipedia article. 
 
 ## cm_s, cm_us, cm_uus
 
@@ -159,7 +165,9 @@ Global array containing
 
 ## cm_invariant_name
 
-Global array containing ["R","R1","R2","R3","M3","M4","W1","W2","M1","M2","M5"].
+Global array containing
+["R","R1","R2","R3","M3","M4","W1","W2","M1","M2","M5"]. The names
+follow the notation defined in the Wikipedia article.
 
 ## cm_nonvanishing_invariants()
 
