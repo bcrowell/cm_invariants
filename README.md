@@ -105,6 +105,13 @@ Same as cm_trig_simp but for rational simplifications.
 Function that computes various tensors from the metric, and then
 computes all the CM invariants. 
 
+## cm_init()
+
+Initializes tensors used in computing the CM invariants. This is
+called automatically by cm_invariants(), so it only needs to be used
+when calculating some rather than all of the invariants, as in the
+example above using the Kerr-Newman metric. 
+
 ## cm_r(),cm_r1(),cm_r2(),cm_r3(),cm_m3(),cm_m4(),cm_w1(),cm_w2(),cm_m1(),cm_m2(),cm_m5()
 
 Functions that calculate the individual CM invariants.
