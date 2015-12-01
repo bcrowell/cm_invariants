@@ -50,11 +50,12 @@ cm_init():=block (
 )$
 
 cm_init_s():=block (
+  %rr:cm_r(),
   /* trace-free Ricci tensor, cm_s[i,j]=S_ij=R_ij-(1/4)Rg_ij */
   array(cm_s,dim,dim),
   for %ii thru dim do
     for %jj thru dim do
-      cm_s[%ii,%jj] : ric[%ii,%jj]-(1/4)*cm_r()*lg[%ii,%jj],
+      cm_s[%ii,%jj] : ric[%ii,%jj]-(1/4)*%rr*lg[%ii,%jj],
   /* mixed version, cm_us[i,j]=S^i_j */
   for %ii thru dim do
     for %jj thru dim do
