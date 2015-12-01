@@ -67,10 +67,12 @@ how long it takes. This can be done as in the following example:
     showtime:true$
     cm_init()$
     cm_r();
+    cm_r1();
 
 (This example works in Maxima 5.37 but not in Maxima 5.32.) The
 calculation above takes about 20 minutes on my machine to determine
-that R=0 for the Kerr-Newman spacetime.
+that R=0 for the Kerr-Newman spacetime, and also that
+R1=[e/(a^2 cos^2 theta+r^2)]^4.
 
 Starting over with a new metric
 ===============================
