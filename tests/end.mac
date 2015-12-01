@@ -3,8 +3,8 @@ ct_coords:[t,x,y,z];
 u:1/(1+exp(t));
 lg:matrix([u,0,0,0],
   [0,-u,0,0],
-  [0,0,-1,0],
-  [0,0,0,-1]
+  [0,0,-u,0],
+  [0,0,0,-u]
 );
 load("cm_invariants.mac");
 cm_invariants();
@@ -12,3 +12,12 @@ cm_invariants();
 cm_print_invariants();
 
 cm_do_tests();
+
+/* It's conformally flat, so all the invariants other than the R's should vanish: */
+cm_assert("M3 vanishes",is(equal(cm_invariant[5],0)));
+cm_assert("M4 vanishes",is(equal(cm_invariant[6],0)));
+cm_assert("W1 vanishes",is(equal(cm_invariant[7],0)));
+cm_assert("W2 vanishes",is(equal(cm_invariant[8],0)));
+cm_assert("M1 vanishes",is(equal(cm_invariant[9],0)));
+cm_assert("M2 vanishes",is(equal(cm_invariant[10],0)));
+cm_assert("M5 vanishes",is(equal(cm_invariant[11],0)));

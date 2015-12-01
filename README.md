@@ -73,8 +73,8 @@ in the following example:
 
 (This example works in Maxima 5.37 but not in Maxima 5.32.) The
 calculation above takes about 20 minutes on my machine to determine
-that R=0 for the Kerr-Newman spacetime, and also that
-R1=[e/(a^2 cos^2 theta+r^2)]^4.
+that R=0 for the Kerr-Newman spacetime, and also that (after a little
+more simplification) R1=[e/(a^2 cos^2 theta+r^2)]^4.
 
 Starting over with a new metric
 ===============================
@@ -221,7 +221,9 @@ because of the space's time-translation symmetry.
 The program end.mac calculates the invariants for a somewhat
 pathological spacetime adapted from an example by Geroch, in which
 timelike geodesics are incomplete as time approaches infinity. All of
-the CM invariants remain finite, however.
+the CM invariants remain finite, however. Since this spacetime is
+conformally flat, the only CM invariants that can be nonzero are the
+R's, and the test script checks whether this is true. 
 
 All of the test programs call the function cm_do_tests(). This
 function checks that the traceless Ricci tensor is indeed traceless,
