@@ -64,11 +64,13 @@ how long it takes. This can be done as in the following example:
     load(ctensor)$
     ct_coordsys(kerr_newman,all)$
     load("cm_invariants.mac")$
+    showtime:true$
     cm_init()$
     cm_r();
 
-The calculation above takes about 10 minutes on my machine to
-determine that R=0 for the Kerr-Newman spacetime. 
+(This example works in Maxima 5.37 but not in Maxima 5.32.) The
+calculation above takes about 20 minutes on my machine to determine
+that R=0 for the Kerr-Newman spacetime.
 
 Starting over with a new metric
 ===============================
@@ -232,8 +234,7 @@ where the results are finite.
 
 Make use of symmetries to improve efficiency.
 
-The package uses local variables with the names a, b, c, d, e, f, i,
-j, k, and l.  If the metric depends on parameters with the same names,
-the results of the calculations will be incorrect. This should be
-fixed by completing the process of renaming all the local loop indices
-to %aa, %bb, etc. 
+The package uses local variables with the names i, j, k, and l.  If
+the metric depends on parameters with the same names, the results of
+the calculations will be incorrect. This should be fixed by completing
+the process of renaming all the local loop indices to %ii, %jj, etc.

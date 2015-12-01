@@ -188,8 +188,9 @@ cm_init_weyl():=block (
 
 cm_m3():=cm_do_trig_simp(cm_do_rat_simp(
   (1/16)*sum(sum(sum(sum(sum(sum(
-    cm_uus[b,c]*cm_s[e,f]*(cm_c[a,b,c,d]*cm_c_upper[a,e,f,d]+cm_c_star[a,b,c,d]*cm_c_star_upper[a,e,f,d]),
-  a,1,dim),b,1,dim),c,1,dim),d,1,dim),e,1,dim),f,1,dim)
+    cm_uus[%bb,%cc]*cm_s[%ee,%ff]*(cm_c[%aa,%bb,%cc,%dd]*cm_c_upper[%aa,%ee,%ff,%dd]
+                                   +cm_c_star[%aa,%bb,%cc,%dd]*cm_c_star_upper[%aa,%ee,%ff,%dd]),
+  %aa,1,dim),%bb,1,dim),%cc,1,dim),%dd,1,dim),%ee,1,dim),%ff,1,dim)
 ))$
 
 cm_m4():=cm_do_trig_simp(cm_do_rat_simp(
