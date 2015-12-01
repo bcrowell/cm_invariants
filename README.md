@@ -50,16 +50,18 @@ nonzero, e.g., [7,8] in the case of the Schwarzschild metric to show
 that W1 and W2 are nonzero. 
 
 Calculating only some of the invariants
-======================================= The full set of invariants
-includes polynomials of up to fifth order in the Riemann tensor.  In
-moderately complicated cases, the expressions for the components of
-the Riemann tensor itself can easily have hundreds or thousands of
-terms. If the Riemann tensor has, for example, 10^3 terms, then
-brute-force computation of a fifth-order polynomial in the Riemann
-tensor will involve something like 10^15 terms, which is obviously
-infeasible.  For this reason, it may be advantageous to compute only
-some of the invariants, or compute them one at a time in order to see
-how long it takes. This can be done as in the following example:
+======================================= 
+
+The full set of invariants includes polynomials of up to fifth order
+in the Riemann tensor.  In moderately complicated cases, the
+expressions for the components of the Riemann tensor itself can easily
+have hundreds or thousands of terms. If the Riemann tensor has, for
+example, 10^3 terms, then brute-force computation of a fifth-order
+polynomial in the Riemann tensor will involve something like 10^15
+terms, which is obviously infeasible.  For this reason, it may be
+advantageous to compute only some of the invariants, or compute them
+one at a time in order to see how long it takes. This can be done as
+in the following example:
 
     load(ctensor)$
     ct_coordsys(kerr_newman,all)$
