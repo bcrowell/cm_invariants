@@ -129,62 +129,62 @@ cm_init_weyl():=block (
   I have three types of checks I can do: (1) symmetry, (2) units, (3) trace-free.
   */
   array(cm_c,dim,dim,dim,dim),
-  for i thru dim do
-    for j thru dim do
-      for k thru dim do
-        for l thru dim do
-          cm_c[l,i,j,k]:weyl[i,j,k,l],
+  for %ii thru dim do
+    for %jj thru dim do
+      for %kk thru dim do
+        for %ll thru dim do
+          cm_c[%ll,%ii,%jj,%kk]:weyl[%ii,%jj,%kk,%ll],
 
   /* mixed form of Weyl tensor, C_ij^kl
   */
   array(cm_c_mixed,dim,dim,dim,dim),
-  for i thru dim do
-    for j thru dim do
-      for k thru dim do
-        for l thru dim do
-          cm_c_mixed[i,j,k,l] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
-              ug[k,%m]*ug[l,%n]*cm_c[i,j,%m,%n],
+  for %ii thru dim do
+    for %jj thru dim do
+      for %kk thru dim do
+        for %ll thru dim do
+          cm_c_mixed[%ii,%jj,%kk,%ll] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
+              ug[%kk,%m]*ug[%ll,%n]*cm_c[%ii,%jj,%m,%n],
             %m,1,dim),%n,1,dim))),
 
   /* upper-index form of Weyl tensor, C^ijkl
   */
   array(cm_c_upper,dim,dim,dim,dim),
-  for i thru dim do
-    for j thru dim do
-      for k thru dim do
-        for l thru dim do
-          cm_c_upper[i,j,k,l] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
-              ug[i,%m]*ug[j,%n]*cm_c_mixed[%m,%n,k,l],
+  for %ii thru dim do
+    for %jj thru dim do
+      for %kk thru dim do
+        for %ll thru dim do
+          cm_c_upper[%ii,%jj,%kk,%ll] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
+              ug[%ii,%m]*ug[%jj,%n]*cm_c_mixed[%m,%n,%kk,%ll],
             %m,1,dim),%n,1,dim))),
 
   /* left Hodge dual of Weyl tensor, *C_ijkl */
   array(cm_c_star,dim,dim,dim,dim),
-  for i thru dim do
-    for j thru dim do
-      for k thru dim do
-        for l thru dim do
-          cm_c_star[i,j,k,l] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
-              (1/2)*cm_eps[k,l,%m,%n]*cm_c_mixed[i,j,%m,%n],
+  for %ii thru dim do
+    for %jj thru dim do
+      for %kk thru dim do
+        for %ll thru dim do
+          cm_c_star[%ii,%jj,%kk,%ll] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
+              (1/2)*cm_eps[%kk,%ll,%m,%n]*cm_c_mixed[%ii,%jj,%m,%n],
             %m,1,dim),%n,1,dim))),
 
   /* mixed form, *C_ij^kl */
   array(cm_c_star_mixed,dim,dim,dim,dim),
-  for i thru dim do
-    for j thru dim do
-      for k thru dim do
-        for l thru dim do
-          cm_c_star_mixed[i,j,k,l] : sum(sum(
-              ug[k,%m]*ug[l,%n]*cm_c_star[i,j,%m,%n],
+  for %ii thru dim do
+    for %jj thru dim do
+      for %kk thru dim do
+        for %ll thru dim do
+          cm_c_star_mixed[%ii,%jj,%kk,%ll] : sum(sum(
+              ug[%kk,%m]*ug[%ll,%n]*cm_c_star[%ii,%jj,%m,%n],
             %m,1,dim),%n,1,dim),
 
   /* mixed form, *C^ijkl */
   array(cm_c_star_upper,dim,dim,dim,dim),
-  for i thru dim do
-    for j thru dim do
-      for k thru dim do
-        for l thru dim do
-          cm_c_star_upper[i,j,k,l] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
-              ug[i,%m]*ug[j,%n]*cm_c_star_mixed[%m,%n,k,l],
+  for %ii thru dim do
+    for %jj thru dim do
+      for %kk thru dim do
+        for %ll thru dim do
+          cm_c_star_upper[%ii,%jj,%kk,%ll] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
+              ug[%ii,%m]*ug[%jj,%n]*cm_c_star_mixed[%m,%n,%kk,%ll],
             %m,1,dim),%n,1,dim)))
 )$
 
@@ -298,16 +298,16 @@ cm_assert(explanation,condition):=block (
 
 /* function to check for antisymmetry of a tensor on indices 1,2 and 3,4 */
 cm_check_symmetry(t,explanation):=block (
-  for i thru dim do
-    for j thru dim do
-      for k thru dim do
-        for l thru dim do block (
-          %u:t[i,j,k,l],
-          %v:t[j,i,k,l],
-          cm_assert(sconcat(explanation,", wrong symmetry on indices 1,2 at ",i,j,k,l," u,v=",%u,",",%v),
+  for %ii thru dim do
+    for %jj thru dim do
+      for %kk thru dim do
+        for %ll thru dim do block (
+          %u:t[%ii,%jj,%kk,%ll],
+          %v:t[%jj,%ii,%kk,%ll],
+          cm_assert(sconcat(explanation,", wrong symmetry on indices 1,2 at ",%ii,%jj,%kk,%ll," u,v=",%u,",",%v),
                     is(equal(%u,-%v))),
-          %v:t[i,j,l,k],
-          cm_assert(sconcat(explanation,", wrong symmetry on indices 3,4 at ",i,j,k,l," u,v=",%u,",",%v),
+          %v:t[%ii,%jj,%ll,%kk],
+          cm_assert(sconcat(explanation,", wrong symmetry on indices 3,4 at ",%ii,%jj,%kk,%ll," u,v=",%u,",",%v),
                     is(equal(%u,-%v)))
       )
 )
@@ -316,14 +316,14 @@ $
 /* function to check for tracelessness of a tensor on indices 1,3 and 2,3; it's assumed that one
    of these is upper and one lower */
 cm_check_traceless(t,explanation):=block (
-  for i thru dim do
-    for j thru dim do
-      for k thru dim do block (
-        tr13:sum(t[l,i,l,j],l,1,dim),
-        cm_assert(sconcat(explanation,", not traceless on [l,",i,",l,",j,"] trace=",tr13),
+  for %ii thru dim do
+    for %jj thru dim do
+      for %kk thru dim do block (
+        tr13:sum(t[%ll,%ii,%ll,%jj],%ll,1,dim),
+        cm_assert(sconcat(explanation,", not traceless on [%ll,",%ii,",%ll,",%jj,"] trace=",tr13),
                     is(equal(tr13,0))),
-        tr23:sum(t[i,l,l,j],l,1,dim),
-        cm_assert(sconcat(explanation,", not traceless on [",i,",l,l,",j,"] trace=",tr23),
+        tr23:sum(t[%ii,%ll,%ll,%jj],%ll,1,dim),
+        cm_assert(sconcat(explanation,", not traceless on [",%ii,",%ll,%ll,",%jj,"] trace=",tr23),
                     is(equal(tr23,0)))
       )
 )$

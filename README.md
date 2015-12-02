@@ -240,11 +240,6 @@ where the results are finite.
 
 Make use of symmetries to improve efficiency.
 
-The package uses local variables with the names i, j, k, and l.  If
-the metric depends on parameters with the same names, the results of
-the calculations will be incorrect. This should be fixed by completing
-the process of renaming all the local loop indices to %ii, %jj, etc.
-
 The calculation of the R's can be broken down into a series of matrix
 multiplications. It would probably be more efficient to do it that
 way, rather than treating the calculation of each R as a separate
