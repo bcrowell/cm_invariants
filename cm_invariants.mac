@@ -67,14 +67,15 @@ cm_init_s():=block (
 )$
 
 /* R_1=(1/4)S^i_j S^j_i */
-cm_r1():=cm_do_trig_simp(cm_do_rat_simp((1/4)*sum(sum(cm_us[i,j]*cm_us[j,i],j,1,dim),i,1,dim)))$
+cm_r1():=cm_do_trig_simp(cm_do_rat_simp((1/4)*sum(sum(cm_us[%ii,%jj]*cm_us[%jj,%ii],%jj,1,dim),%ii,1,dim)))$
 
 /* R_2=(-1/8)S^i_j S^j_k S^k_i */
-cm_r2():=cm_do_trig_simp(cm_do_rat_simp((-1/9)*sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,i],k,1,dim),j,1,dim),i,1,dim)))$
+cm_r2():=cm_do_trig_simp(cm_do_rat_simp((-1/9)*sum(sum(sum(
+              cm_us[%ii,%jj]*cm_us[%jj,%kk]*cm_us[%kk,%ii],%kk,1,dim),%jj,1,dim),%ii,1,dim)))$
 
 /* R_3=(1/16)S^i_j S^j_k S^k_l S^l_i */
-cm_r3():=cm_do_trig_simp(cm_do_rat_simp((1/16)*sum(sum(sum(sum(cm_us[i,j]*cm_us[j,k]*cm_us[k,l]*cm_us[l,i],
-                                        l,1,dim),k,1,dim),j,1,dim),i,1,dim)))$
+cm_r3():=cm_do_trig_simp(cm_do_rat_simp((1/16)*sum(sum(sum(sum(cm_us[%ii,%jj]*cm_us[%jj,%kk]*cm_us[%kk,%ll]*cm_us[%ll,%ii],
+                                        %ll,1,dim),%kk,1,dim),%jj,1,dim),%ii,1,dim)))$
 
 /* Input p is an array of integers; this routine is meant to be used for small arrays, will
    not have good performance on large arrays.
@@ -100,11 +101,11 @@ cm_parity(p):= block
 cm_init_eps():= block (
   array(cm_eps,dim,dim,dim,dim),
   cm_root_gdet:sqrt(-gdet), /* gdet is determinant of metric, computed by cmetric */
-  for i thru dim do
-    for j thru dim do
-      for k thru dim do
-        for l thru dim do
-          cm_eps[i,j,k,l] : cm_do_trig_simp(cm_do_rat_simp(cm_root_gdet*cm_parity([i,j,k,l])))
+  for %ii thru dim do
+    for %jj thru dim do
+      for %kk thru dim do
+        for %ll thru dim do
+          cm_eps[%ii,%jj,%kk,%ll] : cm_do_trig_simp(cm_do_rat_simp(cm_root_gdet*cm_parity([%ii,%jj,%kk,%ll])))
 )$
 
 /*
