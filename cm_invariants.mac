@@ -185,7 +185,26 @@ cm_init_weyl():=block (
         for %ll thru dim do
           cm_c_star_upper[%ii,%jj,%kk,%ll] : cm_do_trig_simp(cm_do_rat_simp(sum(sum(
               ug[%ii,%m]*ug[%jj,%n]*cm_c_star_mixed[%m,%n,%kk,%ll],
-            %m,1,dim),%n,1,dim)))
+            %m,1,dim),%n,1,dim))),
+
+  /* Weyl tensor with bivector indices, C_A^B
+  */
+  cm_bivector_dim:dim*(dim-1)/2, /* normally = 6 */
+  cm_c_bivector:zeromatrix(cm_bivector_dim,cm_bivector_dim),
+  %AA:0,
+  for %ii:1 thru dim-1 do
+    for %jj:%ii+1 thru dim do block (
+      %AA:%AA+1,
+      %BB:0,
+      for %kk:1 thru dim-1 do
+        for %ll:%kk+1 thru dim do block (
+          %BB:%BB+1,
+          %xx:cm_c_mixed[%ii,%jj,%kk,%ll], /* C_ij^kl */
+          cm_c_bivector[%AA,%BB]:%xx,
+          cm_c_bivector[%BB,%AA]:-%xx
+        )
+    )
+
 )$
 
 cm_m3():=cm_do_trig_simp(cm_do_rat_simp(

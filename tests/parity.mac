@@ -5,7 +5,7 @@ lg:matrix([1,0,0,0],
           [0,0,-1,0],
           [0,0,0,-1]);
 load("cm_invariants.mac");
-cm_invariants();
+cm_init();
 
 cm_assert("parity([1,2,3,4])=+1",is(equal(cm_parity([1,2,3,4]),1)));
 cm_assert("parity([1,1,3,4])=0",is(equal(cm_parity([1,1,3,4]),0)));
