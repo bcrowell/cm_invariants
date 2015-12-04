@@ -201,7 +201,7 @@ cm_init_weyl():=block (
           %BB:%BB+1,
           %xx:cm_c_mixed[%ii,%jj,%kk,%ll], /* C_ij^kl */
           cm_c_bivector[%AA,%BB]:%xx,
-          cm_c_bivector[%BB,%AA]:-%xx
+          cm_c_bivector[%BB,%AA]:%xx
         )
     )
 
