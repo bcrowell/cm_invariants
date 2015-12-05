@@ -3,6 +3,8 @@ cm_invariants
 
 Ben Crowell, Fullerton College
 
+Contact information: http://www.lightandmatter.com/area4author.html
+
 An implementation of the Carminati-McLenaghan invariants in Maxima,
 using ctensor. The original paper (paywalled) describing the CM
 invariants was Carminati and McLenaghan, J. Math. Phys. 32 (1991)
