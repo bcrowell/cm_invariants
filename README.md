@@ -85,6 +85,19 @@ need to tell ctensor to forget the first metric. To do this, call the
 function init_ctensor(), then set up your new metric, and call
 cm_invariants() again. 
 
+Eigenvalues of the Weyl tensor
+==============================
+
+Many of the CM invariants depend on either the Ricci tensor or the
+Weyl tensor, but not both. An alternative way of expressing the
+information in these invariants is to find the eigenvalues of these
+tensors. The cm_invariants package is not needed in order to do this
+with the Ricci tensor. In the case of the Weyl tensor, it is necessary
+to reexpress the tensor as a matrix with two bivector indices, and
+cm_invariants provides this as the matrix cm_c_bivector. The file
+examples/kerr.mac gives an example of such a calculation, for the Kerr
+spacetime (rotating, uncharged black hole). 
+
 Options
 =======
 By default we have
@@ -158,6 +171,11 @@ cm_c[l,i,j,k]=weyl[i,j,k,l].
 
 Global arrays containing the left Hudge duals of the various forms of
 the Weyl tensor, i.e., *C_ijkl, *C_ij^kl, *C^ijkl. 
+
+## cm_c_bivector
+
+Global matrix containing the representation C_A^B of the Weyl tensor
+in terms of bivector indices A and B.
 
 ## cm_calculate_all_invariants()
 
@@ -245,6 +263,4 @@ multiplications. It would probably be more efficient to do it that
 way, rather than treating the calculation of each R as a separate
 computation. However, the computational effort probably grows
 exponentially with the order of the polynomial, so the improvement in
-performance might not be very much. Another possible way to implement
-the calculation of the R's would be by finding the eigenvalues of the
-Ricci tensor. 
+performance might not be very much.

@@ -1,0 +1,28 @@
+/* Kerr spacetime, rotating uncharged black hole
+   https://en.wikipedia.org/wiki/Kerr_metric
+ */
+
+load(ctensor);
+ct_coords:[t,r,theta,phi];
+assume(m>0);
+rs:2*m;
+a:j/m; /* alpha */
+rh2:r^2+a^2*(cos(theta))^2; /* rho^2 */
+delta:r^2-rs*r+a^2;
+z:rs*r*(1/rh2)*sin(theta)^2;
+tphi:z*a;
+lg:matrix([1-rs*r/rh2,0,0,z*a],
+          [0,-rh2/delta,0,0],
+          [0,0,-rh2,0],
+          [z*a,0,0,-(r^2+a^2*(1+z))*sin(theta)^2])$
+
+/**********************************/
+
+load("cm_invariants.mac")$
+showtime:true$
+cm_init()$
+C:trigsimp(ev(cm_c_bivector,theta=%pi/2,m=1));
+       /* Without the restriction on theta, it's too computationally expensive, takes more than 8 hours.*/
+C*r^5; /* r^5 for readability */
+eigen:eigenvalues(2*C*r^5);
+       /* The factor of 2*r^5 is for readability. */
