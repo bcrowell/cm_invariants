@@ -70,7 +70,7 @@ cm_init_s():=block (
 cm_r1():=cm_do_trig_simp(cm_do_rat_simp((1/4)*sum(sum(cm_us[%ii,%jj]*cm_us[%jj,%ii],%jj,1,dim),%ii,1,dim)))$
 
 /* R_2=(-1/8)S^i_j S^j_k S^k_i */
-cm_r2():=cm_do_trig_simp(cm_do_rat_simp((-1/9)*sum(sum(sum(
+cm_r2():=cm_do_trig_simp(cm_do_rat_simp((-1/8)*sum(sum(sum(
               cm_us[%ii,%jj]*cm_us[%jj,%kk]*cm_us[%kk,%ii],%kk,1,dim),%jj,1,dim),%ii,1,dim)))$
 
 /* R_3=(1/16)S^i_j S^j_k S^k_l S^l_i */
@@ -157,7 +157,12 @@ cm_init_weyl():=block (
               ug[%ii,%m]*ug[%jj,%n]*cm_c_mixed[%m,%n,%kk,%ll],
             %m,1,dim),%n,1,dim))),
 
-  /* left Hodge dual of Weyl tensor, *C_ijkl */
+  /* left Hodge dual of Weyl tensor, *C_ijkl 
+     We're forming these duals using the tensorial Levi-Civita tensor cm_eps, not the tensor-density version;
+     this makes sense because our goal is to form a tensorial quantity (a scalar) in the end, and we're also
+     doing things like adding C to *C, which wouldn't make sense if they had different transformation
+     properties.
+  */
   array(cm_c_star,dim,dim,dim,dim),
   for %ii thru dim do
     for %jj thru dim do
