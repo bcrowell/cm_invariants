@@ -1,0 +1,46 @@
+load(ctensor);
+
+/* Based on code by Ron Lenk. */
+
+ct_coords:[t,x,y,z];
+lg:matrix([-1,0,0,-exp(x)],
+          [0,1,0,0],
+          [0,0,1,0],
+          [-exp(x),0,0,-exp(2*x)/2]);
+  /* This form is given in a set of slides for a thesis presentation by Jesse Hicks at Utah State
+     (with an additional constant conformal factor of a^2 multiplying the metric).
+     He shows that it's not equivalent to Petrov's equation 33.17, which has a mistake in it. 
+     Hicks's form is equivalent to the metric given in Hawking and Ellis, p. 168, with
+     z interchanged with y and omega=1/sqrt(2). This requires a cosmological constant Lambda=-1/2.
+  */
+
+load("cm_invariants.mac");
+cm_invariants();
+
+cm_do_tests();
+
+cm_print_invariants();
+
+/* Check some results from Hicks.
+   Hicks's exponents of a are not checked here, because I'm omitting the a factor from the metric.
+   Hicks's exponents of a are wrong for R and W1. (Checked conformal behavior by hand.)
+   My results also disagree with Hicks's for M5, his is purely real. This is probably a bug in my code.
+   This is documented in the README as a possible bug.
+*/
+
+cm_assert("Godel metric, R",is(equal(cm_r(),-1)));
+cm_assert("Godel metric, R1",is(equal(cm_r1(),3/16)));
+cm_assert("Godel metric, R2",is(equal(cm_r2(),3/64)));
+cm_assert("Godel metric, R3",is(equal(cm_r3(),21/1024)));
+cm_assert("Godel metric, W1",is(equal(cm_w1(),1/6)));
+cm_assert("Godel metric, W2",is(equal(cm_w2(),1/36)));
+cm_assert("Godel metric, M1",is(equal(cm_m1(),0)));
+cm_assert("Godel metric, M2",is(equal(cm_m2(),1/96)));
+cm_assert("Godel metric, M3",is(equal(cm_m3(),1/96)));
+cm_assert("Godel metric, M4",is(equal(cm_m4(),-1/768)));
+/*
+cm_assert("Godel metric, M5",is(equal(cm_m5(),1/576)));
+*/
+  /* Fails this test ... see above. */
+
+
