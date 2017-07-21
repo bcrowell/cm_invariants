@@ -252,15 +252,13 @@ The program polynomial.mac calculates the CM invariants for a metric
 defined in terms of polynomials in the coordinates, comparing against
 results provided by Ian Anderson.
 
+The program reissner_nordstrom.mac tests against values tabulate by
+Ron Lenk.
+
 All of the test programs call the function cm_do_tests(). This
 function checks that the traceless Ricci tensor is indeed traceless,
 checks the symmetries of the Weyl tensor and its Hodge dual, and
 checks the tracelessness of the Weyl tensor and its Hodge dual. 
-
-Bugs
-====
-The result of the test in polynomial.mac for M2 disagrees with a result
-provided by Ian Anderson.
 
 To do
 =====

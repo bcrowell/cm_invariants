@@ -36,10 +36,12 @@ anderson_m5 : -1/432*(-27*y^4+81*x^8*t^4+90*x^4*t^2*y^2-108*x^6*t^4+44*x^2*y^2*t
 x2:(144*t^4*x^12*y^8);
 x5:(432*t^4*x^14*y^10);
 
-/* currently gets M2 wrong */
+/* M2 appears to have caught a typo in WP. */
 
+/*
 print("M2*x2=",expand(x2*cm_m2()));
 print("Anderson's M2*x2=",distrib(x2*anderson_m2));
+*/
 
 cm_assert("polynomial, R1",is(equal(cm_r1(),1/2*(4*x^2*t^2+9*x^4*t^2-y^2)/x^6/y^4/t^2)));
 cm_assert("polynomial, R2",is(equal(cm_r2(),3/4*(9*x^4*t^2+y^2)/x^8/y^6/t^2)));

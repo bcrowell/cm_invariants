@@ -3,15 +3,28 @@
 load(ctensor);
 ct_coords:[t,r,theta,phi];
 assume(m>0);
-lg:matrix([(1-2*m/r),0,0,0],
-          [0,-1/(1-2*m/r),0,0],
-          [0,0,-r^2,0],
-          [0,0,0,-r^2*sin(theta)^2])$
+lg:matrix([-(1-2*m/r),0,0,0],
+          [0,1/(1-2*m/r),0,0],
+          [0,0,r^2,0],
+          [0,0,0,r^2*sin(theta)^2])$
 load("cm_invariants.mac");
 cm_invariants();
 
 cm_do_tests();
 
 cm_print_invariants();
-cm_assert("Schwarzschild metric has W1 approaching infinity as r->0",is(equal(limit(cm_w1(),r,0),inf)));
+
+/* Ricci and mixed invariants must vanish because it's a vacuum spacetime. */
+cm_assert("Schwarzschild metric has R=0",is(equal(cm_r(),0)));
+cm_assert("Schwarzschild metric has R1=0",is(equal(cm_r1(),0)));
+cm_assert("Schwarzschild metric has R2=0",is(equal(cm_r2(),0)));
+cm_assert("Schwarzschild metric has R3=0",is(equal(cm_r3(),0)));
+cm_assert("Schwarzschild metric has M1=0",is(equal(cm_m1(),0)));
+cm_assert("Schwarzschild metric has M2=0",is(equal(cm_m2(),0)));
+cm_assert("Schwarzschild metric has M3=0",is(equal(cm_m3(),0)));
+cm_assert("Schwarzschild metric has M4=0",is(equal(cm_m4(),0)));
+cm_assert("Schwarzschild metric has M5=0",is(equal(cm_m5(),0)));
+
 cm_assert("Schwarzschild metric has W1=6m^2r^-6",is(equal(trigsimp(ratsimp(cm_w1()-6*m^2*r^-6)),0)));
+cm_assert("Schwarzschild metric has W2=6m^3r^-9",is(equal(trigsimp(ratsimp(cm_w2()-6*m^3*r^-9)),0)));
+   /* Lenk, http://www.ronlenk.com. */
