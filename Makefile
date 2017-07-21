@@ -10,6 +10,7 @@ test:
 	maxima --very-quiet -r "load(\"tests/end.mac\")$$"
 	maxima --very-quiet -r "load(\"tests/de_sitter.mac\")$$"
 	maxima --very-quiet -r "load(\"tests/godel.mac\")$$"
+	maxima --very-quiet -r "load(\"tests/polynomial.mac\")$$"
 
 clean:
 	rm -f *~ tests/*~

@@ -1,0 +1,57 @@
+load(ctensor);
+
+/* A metric used by Ian Anderson in their test suite. */
+
+ct_coords:[t,x,y,z];
+lg:matrix([x^4,0,0,0],
+          [0,-y^2,0,0],
+          [0,0,-1,0],
+          [0,0,0,-x^2*t^2]);
+
+load("cm_invariants.mac");
+cm_invariants();
+
+cm_do_tests();
+
+/* cm_print_invariants(); */
+
+/*
+Anderson's results:
+"r1" = 1/2*(4*x^2*t^2+9*x^4*t^2-y^2)/x^6/y^4/t^2
+"r2" = 3/4*(9*x^4*t^2+y^2)/x^8/y^6/t^2
+"r3" = 1/8*(16*x^4*t^4+72*x^6*t^4+81*x^8*t^4-18*x^4*t^2*y^2+y^4-8*x^2*y^2*t^2)/x^12/y^8/t^4
+"w1" = 1/6*(4*x^2*t^2+3*x^4*t^2-3*y^2)/x^6/y^4/t^2
+"w2" = -1/36*(8*x^2*t^2+9*x^4*t^2-9*y^2)/y^6/x^8/t^2
+"m1" = 1/12*(-5*y^2+8*x^2*t^2+9*x^4*t^2)/y^6/x^8/t^2
+"m2" = 1/72*(81*x^8*t^4-18*x^4*t^2*y^2+9*y^4+72*x^6*t^4-16*x^2*y^2*t^2+16*x^4*t^4)/x^12/y^8/t^4
+"m3" = 1/72*(81*x^8*t^4+54*x^4*t^2*y^2+9*y^4-16*x^2*y^2*t^2+16*x^4*t^4)/x^12/y^8/t^4
+"m4" = -1/48*(12*x^6*t^4-3*y^4+4*x^2*y^2*t^2+27*x^8*t^4)/x^14/y^10/t^4
+"m5" = -1/432*(-27*y^4+81*x^8*t^4+90*x^4*t^2*y^2-108*x^6*t^4+44*x^2*y^2*t^2-32*x^4*t^4)/x^14/y^10/t^4
+*/
+
+anderson_m2 : 1/72*(81*x^8*t^4-18*x^4*t^2*y^2+9*y^4+72*x^6*t^4-16*x^2*y^2*t^2+16*x^4*t^4)/x^12/y^8/t^4;
+anderson_m5 : -1/432*(-27*y^4+81*x^8*t^4+90*x^4*t^2*y^2-108*x^6*t^4+44*x^2*y^2*t^2-32*x^4*t^4)/x^14/y^10/t^4;
+
+/* Factors to multiply M2 and M5 by to make them more readable for me and easier for Maxima to work with: */
+x2:(144*t^4*x^12*y^8);
+x5:(432*t^4*x^14*y^10);
+
+/* currently gets M2 wrong */
+
+print("M2*x2=",expand(x2*cm_m2()));
+print("Anderson's M2*x2=",distrib(x2*anderson_m2));
+
+cm_assert("polynomial, R1",is(equal(cm_r1(),1/2*(4*x^2*t^2+9*x^4*t^2-y^2)/x^6/y^4/t^2)));
+cm_assert("polynomial, R2",is(equal(cm_r2(),3/4*(9*x^4*t^2+y^2)/x^8/y^6/t^2)));
+cm_assert("polynomial, R3",is(equal(cm_r3(),1/8*(16*x^4*t^4+72*x^6*t^4+81*x^8*t^4-18*x^4*t^2*y^2+y^4-8*x^2*y^2*t^2)/x^12/y^8/t^4)));
+cm_assert("polynomial, W1",is(equal(cm_w1(),1/6*(4*x^2*t^2+3*x^4*t^2-3*y^2)/x^6/y^4/t^2)));
+cm_assert("polynomial, W2",is(equal(cm_w2(),-1/36*(8*x^2*t^2+9*x^4*t^2-9*y^2)/y^6/x^8/t^2)));
+cm_assert("polynomial, M1",is(equal(cm_m1(),1/12*(-5*y^2+8*x^2*t^2+9*x^4*t^2)/y^6/x^8/t^2)));
+cm_assert("polynomial, M2",is(equal(expand(cm_m2()*x2),expand(x2*anderson_m2))));
+cm_assert("polynomial, M3",is(equal(cm_m3(),1/72*(81*x^8*t^4+54*x^4*t^2*y^2+9*y^4-16*x^2*y^2*t^2+16*x^4*t^4)/x^12/y^8/t^4)));
+cm_assert("polynomial, M4",is(equal(cm_m4(),-1/48*(12*x^6*t^4-3*y^4+4*x^2*y^2*t^2+27*x^8*t^4)/x^14/y^10/t^4)));
+cm_assert("polynomial, M5",is(equal(expand(cm_m5()*x5),expand(x5*anderson_m5))));
+
+
+
+

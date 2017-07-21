@@ -24,8 +24,6 @@ cm_print_invariants();
 /* Check some results from Hicks.
    Hicks's exponents of a are not checked here, because I'm omitting the a factor from the metric.
    Hicks's exponents of a are wrong for R and W1. (Checked conformal behavior by hand.)
-   My results also disagree with Hicks's for M5, his is purely real. This is probably a bug in my code.
-   This is documented in the README as a possible bug.
    I emailed Hicks's adviser, Ian Anderson, about this, 2017 jul 19.
 */
 
@@ -39,9 +37,7 @@ cm_assert("Godel metric, M1",is(equal(cm_m1(),0)));
 cm_assert("Godel metric, M2",is(equal(cm_m2(),1/96)));
 cm_assert("Godel metric, M3",is(equal(cm_m3(),1/96)));
 cm_assert("Godel metric, M4",is(equal(cm_m4(),-1/768)));
-/*
 cm_assert("Godel metric, M5",is(equal(cm_m5(),1/576)));
-*/
-  /* Fails this test ... see above. */
+
 
 
