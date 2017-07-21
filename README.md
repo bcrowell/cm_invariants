@@ -228,7 +228,7 @@ invariants that are continuous functions of the Riemann tensor and its
 derivatives (not just the CM invariants). If any of these fail to be
 zero, an error is generated.
 
-The programs sch.mac, closed.mac, and de_sitter.mac do the
+The programs schwarzschild.mac, closed.mac, and de_sitter.mac do the
 calculations for the Schwarzschild spactime; a closed,
 radiation-dominated FLRW cosmology; and an FLRW cosmology containing
 only a repulsive cosmological constant (de Sitter space). For the

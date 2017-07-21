@@ -1,0 +1,33 @@
+/* Schwarzschild-de Sitter spacetime */
+
+load(ctensor);
+ct_coords:[t,r,theta,phi];
+assume(m>0);
+lg:matrix([-(1-2*m/r-Lambda*r^2),0,0,0],
+          [0,1/(1-2*m/r-Lambda*r^2),0,0],
+          [0,0,r^2,0],
+          [0,0,0,r^2*sin(theta)^2])$
+load("cm_invariants.mac");
+cm_invariants();
+
+cm_do_tests();
+
+cm_print_invariants();
+
+/* Compare with results tablulated by Lenk, http://www.ronlenk.com. 
+   The only difference between this and Schwarzschild is in R.
+*/
+
+
+cm_assert("Schwarzschild-de Sitter metric has R=0",is(equal(cm_r(),12*Lambda)));
+cm_assert("Schwarzschild-de Sitter metric has R1=0",is(equal(cm_r1(),0)));
+cm_assert("Schwarzschild-de Sitter metric has R2=0",is(equal(cm_r2(),0)));
+cm_assert("Schwarzschild-de Sitter metric has R3=0",is(equal(cm_r3(),0)));
+cm_assert("Schwarzschild-de Sitter metric has M1=0",is(equal(cm_m1(),0)));
+cm_assert("Schwarzschild-de Sitter metric has M2=0",is(equal(cm_m2(),0)));
+cm_assert("Schwarzschild-de Sitter metric has M3=0",is(equal(cm_m3(),0)));
+cm_assert("Schwarzschild-de Sitter metric has M4=0",is(equal(cm_m4(),0)));
+cm_assert("Schwarzschild-de Sitter metric has M5=0",is(equal(cm_m5(),0)));
+
+cm_assert("Schwarzschild-de Sitter metric has W1=6m^2r^-6",is(equal(trigsimp(ratsimp(cm_w1()-6*m^2*r^-6)),0)));
+cm_assert("Schwarzschild-de Sitter metric has W2=6m^3r^-9",is(equal(trigsimp(ratsimp(cm_w2()-6*m^3*r^-9)),0)));
