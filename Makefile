@@ -12,6 +12,8 @@ test:
 	maxima --very-quiet -r "load(\"tests/de_sitter.mac\")$$"
 	maxima --very-quiet -r "load(\"tests/godel.mac\")$$"
 	maxima --very-quiet -r "load(\"tests/polynomial.mac\")$$"
+	maxima --very-quiet -r "load(\"tests/complex_1.mac\")$$"
+	maxima --very-quiet -r "load(\"tests/complex_2.mac\")$$"
 
 clean:
 	rm -f *~ tests/*~

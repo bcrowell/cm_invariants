@@ -1,0 +1,15 @@
+/* Test a simple metric for which W1 has a non-real value.
+   I don't actually know if this result is correct, but it does provide a
+   regression test. */
+
+load(ctensor);
+ct_coords:[t,x,y,z];
+assume(m>0);
+lg:matrix([-1+x*y,0,0,0],
+          [0,1+z*t,0,0],
+          [0,0,1,0],
+          [0,0,0,1])$
+load("cm_invariants.mac");
+cm_init();
+
+cm_assert("complex_2 metric, W1 at origin",is(equal(ev(cm_w1(),t=0,x=0,y=0,z=0,eval),%i/4)));
