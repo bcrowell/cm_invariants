@@ -4,7 +4,11 @@
 
 load(ctensor);
 ct_coords:[t,x,y,z];
-/* In the following, the factors of 2 just make the output a little simpler. */
+/* In the following, the factors of 2 just make the output a little simpler.
+   The idea of using the exponentials is that they make the inverse metric have a simple form,
+   so that expressions come out simple and don't take too long to compute. Cf. complex_2,
+   in which the exponentials are not used. The only disadvantage of the exponentials is that
+   they cause W1 to vanish, so we don't get a test of W1. */
 lg:(1/2)*matrix([-exp(2*(x+y)),0,0,0],
           [0,exp(2*(z+t)),0,0],
           [0,0,1,0],
