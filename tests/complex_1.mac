@@ -1,6 +1,5 @@
 /* Test a simple metric for which some of the complex invariants have non-real values.
-   I don't actually know if these results are correct, but they do provide a
-   regression test. */
+   Only one of these, as noted below, is known to be correct based on someone else's calculation. */
 
 load(ctensor);
 ct_coords:[t,x,y,z];
@@ -21,6 +20,7 @@ a:exp(t+x+y+z);
 cm_assert("complex_1 metric, Im(W2)",is(equal(imagpart(cm_w2()),12/a)));
 cm_assert("complex_1 metric, Im(M1)",is(equal(imagpart(cm_m1()),4/a)));
 cm_assert("complex_1 metric, Im(M2) at origin",is(equal(ev(imagpart(cm_m2()),t=0,x=0,y=0,z=0,eval),-1/6)));
+     /* ... verified by Ron Lenk using Maple */
 cm_assert("complex_1 metric, Im(M5) at origin",is(equal(ev(imagpart(cm_m5()),t=0,x=0,y=0,z=0,eval),-32/9)));
 
 
