@@ -1,0 +1,21 @@
+/* Kantowski-Sachs spacetime */
+
+/* https://en.wikipedia.org/wiki/Kantowski%E2%80%93Sachs_metric */
+
+load(ctensor);
+ct_coords:[t,theta,phi,z];
+assume(m>0);
+lg:matrix([-1,0,0,0],
+          [0,1,0,0],
+          [0,0,sin(theta)^2,0],
+          [0,0,0,exp(2*t)])$
+load("cm_invariants.mac");
+
+cm_init();
+cm_do_tests();
+
+
+cm_assert("Kantowski-Sachs metric has R=4",is(equal(cm_r(),4)));
+  /* ... verified against calculation by Ron Lenk using Maple */
+cm_assert("Kantowski-Sachs metric has W1^3=6W2^2",is(equal(cm_w1()^3,6*cm_w2()^2)));
+  /* ... verified against calculation by Ron Lenk using Maple */

@@ -51,6 +51,11 @@ contains a list of the array indices of the invariants that are
 nonzero, e.g., [7,8] in the case of the Schwarzschild metric to show
 that W1 and W2 are nonzero. 
 
+Note that the ctensor package, without the cm_invariants package,
+already has a function scurvature() for calculating the Ricci scalar
+and rinvariant() for the Kretschmann scalar (which is not
+algebraically independent of the CM invariants). 
+
 Calculating only some of the invariants
 ======================================= 
 
