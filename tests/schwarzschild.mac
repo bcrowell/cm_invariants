@@ -12,7 +12,7 @@ cm_invariants();
 
 cm_do_tests();
 
-cm_print_invariants();
+/* cm_print_invariants(); */
 
 /* Ricci and mixed invariants must vanish because it's a vacuum spacetime. */
 cm_assert("Schwarzschild metric has R=0",is(equal(cm_r(),0)));

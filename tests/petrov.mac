@@ -1,0 +1,35 @@
+/* Petrov metric
+   Petrov, in "Recent Developments in General Relativity," 1962, Pergamon, p. 383
+   https://arxiv.org/abs/0802.4082
+*/
+
+
+load(ctensor);
+ct_coords:[t,r,phi,z];
+c: cos(sqrt(3)*r);
+s: sin(sqrt(3)*r);
+tt : exp(r)*c;
+phit : exp(r)*s;
+lg:matrix([tt,0,phit,0],
+          [0,-1,0,0],
+          [phit,0,-tt,0],
+          [0,0,0,-exp(-2*r)]
+);
+load("cm_invariants.mac");
+cm_invariants();
+cm_do_tests();
+
+/* Ricci and mixed invariants must vanish because it's a vacuum spacetime. */
+cm_assert("Petrov metric has R=0",is(equal(cm_r(),0)));
+cm_assert("Petrov metric has R1=0",is(equal(cm_r1(),0)));
+cm_assert("Petrov metric has R2=0",is(equal(cm_r2(),0)));
+cm_assert("Petrov metric has R3=0",is(equal(cm_r3(),0)));
+cm_assert("Petrov metric has M1=0",is(equal(cm_m1(),0)));
+cm_assert("Petrov metric has M2=0",is(equal(cm_m2(),0)));
+cm_assert("Petrov metric has M3=0",is(equal(cm_m3(),0)));
+cm_assert("Petrov metric has M4=0",is(equal(cm_m4(),0)));
+cm_assert("Petrov metric has M5=0",is(equal(cm_m5(),0)));
+
+/* I don't have an independent check on whether these are correct. */
+cm_assert("Petrov metric has W1=0",is(equal(trigsimp(ratsimp(cm_w1())),0)));
+cm_assert("Petrov metric has W2=3",is(equal(trigsimp(ratsimp(cm_w2())),3)));

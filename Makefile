@@ -15,6 +15,7 @@ test:
 	maxima --very-quiet -r "load(\"tests/complex_1.mac\")$$"
 	maxima --very-quiet -r "load(\"tests/complex_2.mac\")$$"
 	maxima --very-quiet -r "load(\"tests/kantowski_sachs.mac\")$$"
+	maxima --very-quiet -r "load(\"tests/petrov.mac\")$$"
 
 clean:
 	rm -f *~ tests/*~
